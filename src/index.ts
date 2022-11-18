@@ -1,5 +1,5 @@
-let text: string
 
-text = '1233'
+
+const text = '1233'
 
 console.log(text)
