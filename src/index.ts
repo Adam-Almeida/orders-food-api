@@ -1,5 +1,8 @@
+import express from "express";
+const port = 3333;
 
+const app = express();
 
-const text = '1233'
-
-console.log(text)
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});
