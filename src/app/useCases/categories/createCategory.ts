@@ -7,16 +7,16 @@ class CreateCategory {
             const { name, icon } = req.body;
 
             if (!name || !icon) {
-                res.status(422).json({ error: "Preencha todos os campos." });
+                res.status(400).json({ error: "Preencha todos os campos." });
                 return;
             }
 
             const category = await Category.create({ name, icon });
 
-            res.status(200).json(category);
+            res.status(201).json(category);
         } catch (error) {
-            res.status(500).json({ error: "Internal server error." });
             console.error(error);
+            res.status(500).json({ error: "Internal server error." });
         }
     }
 }

@@ -1,11 +1,13 @@
 import { Request, Response } from "express";
-import { Category } from "../../models/Category";
 
-class ListCategories {
+class createProducts {
     async handle(req: Request, res: Response) {
         try {
-            const categories = await Category.find();
-            res.json(categories);
+
+            
+
+
+
         } catch (error) {
             console.error(error);
             res.status(500).json({ error: "Internal server error." });
@@ -13,4 +15,4 @@ class ListCategories {
     }
 }
 
-export default new ListCategories();
+export default new createProducts();
