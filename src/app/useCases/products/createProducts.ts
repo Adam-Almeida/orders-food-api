@@ -4,7 +4,7 @@ class createProducts {
     async handle(req: Request, res: Response) {
         try {
 
-            
+            console.log(req.body)
 
 
 
