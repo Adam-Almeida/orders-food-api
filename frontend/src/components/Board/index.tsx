@@ -1,29 +1,30 @@
+import { Order } from "../../types/Order";
 import { CardBoard, OrdersContainer } from "./style";
 
 interface IProps {
     icon: string;
     title: string;
-    quantity: number;
+    orders: Order[];
 }
 
-export function Board({ icon, title, quantity }: IProps) {
+export function Board({ icon, title, orders }: IProps) {
     return (
         <CardBoard>
             <header>
-                <img src={icon}/>
+                <img src={icon} />
                 <strong>{title}</strong>
-                <span>({quantity})</span>
+                <span>({orders.length})</span>
             </header>
-            <OrdersContainer>
-                <button type="button">
-                    <strong>Mesa 2</strong>
-                    <span>2 Itens</span>
-                </button>
-                <button type="button">
-                    <strong>Mesa 2</strong>
-                    <span>2 Itens</span>
-                </button>
-            </OrdersContainer>
+            {orders.length > 0 && (
+                <OrdersContainer>
+                    {orders.map((order) => (
+                        <button type="button" key={order._id}>
+                            <strong>Mesa {order.table}</strong>
+                            <span>{order.products.length} Itens</span>
+                        </button>
+                    ))}
+                </OrdersContainer>
+            )}
         </CardBoard>
     );
 }
