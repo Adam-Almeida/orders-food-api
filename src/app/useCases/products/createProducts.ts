@@ -19,7 +19,7 @@ class createProducts {
                 price: Number(price),
                 imagePath,
                 category,
-                ingredients: JSON.parse(ingredients),
+                ingredients: ingredients ? JSON.parse(ingredients) : [],
             });
 
             res.status(201).json(product);
