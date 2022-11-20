@@ -1,10 +1,12 @@
 import { Global } from "./styles/Global";
 
+import { Header } from "./components/Header";
+
 export function App() {
     return (
         <>
             <Global />
-            <h1>Hellow World</h1>
+            <Header />
         </>
     );
 }
