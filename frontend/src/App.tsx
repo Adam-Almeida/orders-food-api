@@ -1,3 +1,3 @@
-export function App(){
-  return <h1>Hellow World</h1>
+export function App() {
+    return <h1>Hellow World</h1>;
 }
