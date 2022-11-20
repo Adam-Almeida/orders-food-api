@@ -8,6 +8,8 @@ import listProducts from "./app/useCases/products/listProducts";
 import listProductsByCategory from "./app/useCases/categories/listProductsByCategory";
 import listOrders from "./app/useCases/orders/listOrders";
 import createOrders from "./app/useCases/orders/createOrders";
+import changeOrderStatus from "./app/useCases/orders/changeOrderStatus";
+import deletedOrder from "./app/useCases/orders/deletedOrder";
 
 export const router = Router();
 
@@ -33,11 +35,7 @@ router.get("/orders", listOrders.handle);
 router.post("/orders", createOrders.handle);
 
 //change order status
-router.patch("/orders/:id", (req, res) => {
-    res.send("ok");
-});
+router.patch("/orders/:id", changeOrderStatus.handle);
 
 //delete order
-router.delete("/orders/:id", (req, res) => {
-    res.send("ok");
-});
+router.delete("/orders/:id", deletedOrder.handle);

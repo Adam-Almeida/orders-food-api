@@ -5,6 +5,8 @@ class ListOrders {
     async handle(req: Request, res: Response) {
         try {
             const orders = await Order.find()
+                .where("status")
+                .in(["WAITING", "IN_PRODUCTION", "DONE"])
                 .sort({ createdAt: 1 })
                 .populate("products.product");
             res.json(orders);
