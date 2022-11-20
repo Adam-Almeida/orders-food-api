@@ -7,6 +7,7 @@ import createProducts from "./app/useCases/products/createProducts";
 import listProducts from "./app/useCases/products/listProducts";
 import listProductsByCategory from "./app/useCases/categories/listProductsByCategory";
 import listOrders from "./app/useCases/orders/listOrders";
+import createOrders from "./app/useCases/orders/createOrders";
 
 export const router = Router();
 
@@ -29,9 +30,7 @@ router.get("/categories/:id/products", listProductsByCategory.handle);
 router.get("/orders", listOrders.handle);
 
 //create orders
-router.post("/orders", (req, res) => {
-    res.send("ok");
-});
+router.post("/orders", createOrders.handle);
 
 //change order status
 router.patch("/orders/:id", (req, res) => {
