@@ -1,6 +1,5 @@
-import path from "node:path";
 import { Router } from "express";
-import multer from "multer";
+import { upload } from "./app/utils/upload";
 
 import createCategory from "./app/useCases/categories/createCategory";
 import listCategories from "./app/useCases/categories/listCategories";
@@ -8,27 +7,6 @@ import createProducts from "./app/useCases/products/createProducts";
 import listProducts from "./app/useCases/products/listProducts";
 
 export const router = Router();
-
-const upload = multer({
-    fileFilter: function (req, file, callback) {
-        var ext = path.extname(file.originalname);
-        if(ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
-            return callback(new Error('Only images are allowed'))
-        }
-        callback(null, true)
-    },
-    limits:{
-        fileSize: 1024 * 1024
-    },
-    storage: multer.diskStorage({
-        destination(req, file, callback) {
-            callback(null, path.resolve(__dirname, "..", "uploads"));
-        },
-        filename(req, file, callback) {
-            callback(null, `${Date.now()}-${file.originalname}`)
-        },
-    }),
-});
 
 //list categories
 router.get("/categories", listCategories.handle);
