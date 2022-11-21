@@ -22,31 +22,6 @@ const orders: Order[] = [
             },
         ],
     },
-    {
-        _id: "6379a04407fbec26d310e0fg",
-        table: "29",
-        status: "WAITING",
-        products: [
-            {
-                product: {
-                    name: "Pizza Catupiry",
-                    imagePath: "1668905847951-quatro-queijos.png",
-                    price: 56.3,
-                },
-                quantity: 2,
-                _id: "6379a04407fbec26d310e100",
-            },
-            {
-                product: {
-                    name: "Pizza Frango",
-                    imagePath: "1668905847951-quatro-queijos.png",
-                    price: 56.3,
-                },
-                quantity: 2,
-                _id: "6379a04407fbec26d310e100",
-            },
-        ],
-    },
 ];
 
 export function Orders() {
