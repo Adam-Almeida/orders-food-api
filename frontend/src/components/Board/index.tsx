@@ -11,14 +11,16 @@ interface IProps {
 
 export function Board({ icon, title, orders }: IProps) {
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [selectedOrder, setSelectedOrder] = useState<null | Order>(null);
 
-    function handleOpenOrder() {
+    function handleOpenOrder(order: Order) {
         setIsModalVisible(true);
+        setSelectedOrder(order);
     }
 
     return (
         <CardBoard>
-            <OrderModal visible={isModalVisible} />
+            <OrderModal visible={isModalVisible} order={selectedOrder} />
             <header>
                 <img src={icon} />
                 <strong>{title}</strong>
@@ -30,7 +32,7 @@ export function Board({ icon, title, orders }: IProps) {
                         <button
                             type="button"
                             key={order._id}
-                            onClick={handleOpenOrder}
+                            onClick={() => handleOpenOrder(order)}
                         >
                             <strong>Mesa {order.table}</strong>
                             <span>{order.products.length} Itens</span>

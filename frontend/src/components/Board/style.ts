@@ -17,8 +17,8 @@ export const CardBoard = styled.div`
     span{
         font-size: 1rem;
     }
-    
-    header {
+
+    > header {
         padding: 2rem;
         font-size: 0.9rem;
         display: flex;
