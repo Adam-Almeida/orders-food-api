@@ -5,6 +5,7 @@ export interface Order {
     products: [
         {
             quantity: number;
+            _id: string;
             product: {
                 name: string;
                 imagePath: string;

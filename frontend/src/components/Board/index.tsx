@@ -18,9 +18,14 @@ export function Board({ icon, title, orders }: IProps) {
         setSelectedOrder(order);
     }
 
+    function handleCloseModal() {
+        setIsModalVisible(false);
+        setSelectedOrder(null);
+    }
+
     return (
         <CardBoard>
-            <OrderModal visible={isModalVisible} order={selectedOrder} />
+            <OrderModal visible={isModalVisible} order={selectedOrder} onClose={handleCloseModal} />
             <header>
                 <img src={icon} />
                 <strong>{title}</strong>

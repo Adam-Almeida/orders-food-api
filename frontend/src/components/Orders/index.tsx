@@ -12,13 +12,22 @@ const orders: Order[] = [
         status: "WAITING",
         products: [
             {
+                quantity: 1,
+                _id: "6379a04407fbec26d3popioii",
                 product: {
                     name: "Pizza Quatro Queijos",
-                    imagePath: "1668905847951-quatro-queijos.png",
+                    imagePath: "1668908831539-quatro-queijos.png",
                     price: 40,
                 },
-                quantity: 5,
-                _id: "6379a04407fbec26d310e200",
+            },
+            {
+                quantity: 2,
+                _id: "6379a04407fbec26d310e211",
+                product: {
+                    name: "Pizza Quatro Queijos",
+                    imagePath: "1668908831539-quatro-queijos.png",
+                    price: 42.6,
+                },
             },
         ],
     },
