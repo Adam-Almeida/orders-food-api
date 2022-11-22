@@ -15,7 +15,6 @@ interface IProps {
 }
 
 export function OrderModal({ visible, order, onClose }: IProps) {
-
     /// fechar o modal ao precionar o esc
     useEffect(() => {
         function handleKeyDown(event: KeyboardEvent) {
