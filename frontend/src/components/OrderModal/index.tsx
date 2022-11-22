@@ -6,6 +6,7 @@ import checkmark from "../../assets/images/checkmark.png";
 import fried from "../../assets/images/fried.png";
 import { Order } from "../../types/Order";
 import { formatCurrency } from "../../utils/formatCurrency";
+import { useEffect } from "react";
 
 interface IProps {
     visible: boolean;
@@ -14,6 +15,22 @@ interface IProps {
 }
 
 export function OrderModal({ visible, order, onClose }: IProps) {
+
+    /// fechar o modal ao precionar o esc
+    useEffect(() => {
+        function handleKeyDown(event: KeyboardEvent) {
+            if (event.key === "Escape") {
+                onClose();
+            }
+        }
+
+        document.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [onClose]);
+
     if (!visible || !order) {
         return null;
     }
