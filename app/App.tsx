@@ -1,7 +1,7 @@
 import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
-import { Text } from "./src/components/Text";
+import { Text } from "./src2/components/Text";
 
 export default function App() {
     const [isFontsLoaded] = useFonts({
