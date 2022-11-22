@@ -1,10 +1,23 @@
-import { Text } from "../components/Text";
-import { Container } from "./styles";
+import { Header } from "../components/Header";
+import {
+    Container,
+    CategoriesContainer,
+    MenuContainer,
+    Footer,
+    FooterContainer,
+} from "./styles";
 
 export function Main() {
     return (
-        <Container>
-            <Text>hello World</Text>
-        </Container>
+        <>
+            <Container>
+                <Header />
+                <CategoriesContainer />
+                <MenuContainer />
+            </Container>
+            <Footer>
+                <FooterContainer></FooterContainer>
+            </Footer>
+        </>
     );
 }
