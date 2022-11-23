@@ -11,8 +11,16 @@ import {
     FooterContainer,
 } from "./styles";
 import { TableModal } from "../components/TableModal";
+import { useState } from "react";
 
 export function Main() {
+    const [isTableModalVisible, setIsTableModalVisible] = useState(false);
+    const [selectedTable, setselectedTable] = useState("");
+
+    function handleSaveTable(table: string) {
+        setselectedTable(table);
+    }
+
     return (
         <>
             <Container>
@@ -27,11 +35,19 @@ export function Main() {
 
             <Footer>
                 <FooterContainer>
-                    <Button onPress={() => alert("jj")}>Novo Pedido</Button>
+                    {!selectedTable && (
+                        <Button onPress={() => setIsTableModalVisible(true)}>
+                            Novo Pedido
+                        </Button>
+                    )}
                 </FooterContainer>
             </Footer>
 
-            <TableModal />
+            <TableModal
+                visible={isTableModalVisible}
+                onClose={() => setIsTableModalVisible(false)}
+                onSave={handleSaveTable}
+            />
         </>
     );
 }

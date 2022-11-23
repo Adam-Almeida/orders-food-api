@@ -1,19 +1,33 @@
+import { useState } from "react";
 import { Modal, TouchableOpacity, Platform } from "react-native";
 import { Button } from "../../Button";
 import { Close } from "../Icons/Close";
 import { Text } from "../Text";
 import { ModalBody, Overlay, Header, Form, Input } from "./styles";
 
-export function TableModal() {
+interface TableModalProps {
+    visible: boolean;
+    onClose: () => void;
+    onSave: (table: string) => void;
+}
+
+export function TableModal({ visible, onClose, onSave }: TableModalProps) {
+    const [table, setTable] = useState("");
+
+    function handleSave() {
+        onSave(table);
+        onClose();
+    }
+
     return (
-        <Modal transparent>
+        <Modal transparent visible={visible} animationType="fade">
             <Overlay
                 behavior={Platform.OS === "android" ? "height" : "padding"}
             >
                 <ModalBody>
                     <Header>
                         <Text weight="600">Informe a Mesa</Text>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={onClose}>
                             <Close color="#666"></Close>
                         </TouchableOpacity>
                     </Header>
@@ -22,8 +36,14 @@ export function TableModal() {
                             placeholder="Número da Mesa"
                             placeholderTextColor="#666"
                             keyboardType="number-pad"
+                            onChangeText={setTable}
                         />
-                        <Button onPress={() => alert("salvou")}>Salvar</Button>
+                        <Button
+                            onPress={handleSave}
+                            disable={table.length === 0}
+                        >
+                            Salvar
+                        </Button>
                     </Form>
                 </ModalBody>
             </Overlay>
