@@ -10,6 +10,7 @@ import {
     Footer,
     FooterContainer,
 } from "./styles";
+import { TableModal } from "../components/TableModal";
 
 export function Main() {
     return (
@@ -23,11 +24,14 @@ export function Main() {
                     <Menu></Menu>
                 </MenuContainer>
             </Container>
+
             <Footer>
                 <FooterContainer>
                     <Button onPress={() => alert("jj")}>Novo Pedido</Button>
                 </FooterContainer>
             </Footer>
+
+            <TableModal />
         </>
     );
 }
