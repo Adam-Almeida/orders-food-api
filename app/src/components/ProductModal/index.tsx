@@ -51,29 +51,31 @@ export function ProductModal({ visible, onClose, product }: ProductsProps) {
                     <Text color="#666">{product.description}</Text>
                 </Header>
 
-                <IngredientsContainer>
-                    <Text weight="600" color="#666">
-                        Ingredientes
-                    </Text>
-                    <FlatList
-                        style={{ marginTop: 8 }}
-                        data={product.ingredients}
-                        keyExtractor={(ingredient) => ingredient._id}
-                        showsVerticalScrollIndicator={false}
-                        renderItem={({ item: ingredient }) => (
-                            <Ingredient>
-                                <Text>{ingredient.icon}</Text>
-                                <Text
-                                    size={14}
-                                    color="#666"
-                                    style={{ marginLeft: 24 }}
-                                >
-                                    {ingredient.name}
-                                </Text>
-                            </Ingredient>
-                        )}
-                    />
-                </IngredientsContainer>
+                {product.ingredients.length > 0 && (
+                    <IngredientsContainer>
+                        <Text weight="600" color="#666">
+                            Ingredientes
+                        </Text>
+                        <FlatList
+                            style={{ marginTop: 8 }}
+                            data={product.ingredients}
+                            keyExtractor={(ingredient) => ingredient._id}
+                            showsVerticalScrollIndicator={false}
+                            renderItem={({ item: ingredient }) => (
+                                <Ingredient>
+                                    <Text>{ingredient.icon}</Text>
+                                    <Text
+                                        size={14}
+                                        color="#666"
+                                        style={{ marginLeft: 24 }}
+                                    >
+                                        {ingredient.name}
+                                    </Text>
+                                </Ingredient>
+                            )}
+                        />
+                    </IngredientsContainer>
+                )}
             </ModalBody>
             <Footer>
                 <FooterContainer>

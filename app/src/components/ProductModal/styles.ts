@@ -2,7 +2,7 @@ import styled from "styled-components/native";
 
 export const Image = styled.ImageBackground`
     width: 100%;
-    height: 200px;
+    height: 160px;
 `;
 
 export const CloseButton = styled.TouchableOpacity`
@@ -28,14 +28,15 @@ export const Header = styled.View`
 `;
 
 export const IngredientsContainer = styled.View`
-    margin-top: 10px;
+    margin-top: 24px;
+    flex: 1;
 `;
 
 export const Ingredient = styled.View`
     flex-direction: row;
     border: 1px solid rgba(204, 204, 204, 0.3);
     border-radius: 8px;
-    padding: 6px;
+    padding: 12px;
     align-items: center;
     margin-bottom: 4px;
 `;
