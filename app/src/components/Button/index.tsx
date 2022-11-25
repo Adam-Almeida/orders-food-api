@@ -1,5 +1,5 @@
 import { Container } from "./style";
-import { Text } from "../components/Text";
+import { Text } from "../Text";
 interface BProps {
     children: string;
     onPress: () => void;

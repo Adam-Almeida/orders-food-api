@@ -1,5 +1,5 @@
 import { FlatList, Modal } from "react-native";
-import { Button } from "../../Button";
+import { Button } from "../Button";
 import { Product } from "../../types/Products";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { Close } from "../Icons/Close";

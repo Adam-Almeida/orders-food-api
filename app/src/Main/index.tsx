@@ -1,7 +1,6 @@
 import { Header } from "../components/Header";
 import { Categories } from "../components/Categories";
 import { Menu } from "../components/Menu";
-import { Button } from "../Button";
 
 import {
     Container,
@@ -12,10 +11,18 @@ import {
 } from "./styles";
 import { TableModal } from "../components/TableModal";
 import { useState } from "react";
+import { Button } from "../components/Button";
+import { Cart } from "../components/Cart";
+import { CartItem } from "../types/CartItem";
+import { products } from "../mocks/products";
 
 export function Main() {
     const [isTableModalVisible, setIsTableModalVisible] = useState(false);
     const [selectedTable, setselectedTable] = useState("");
+    const [cartItens, setCartItens] = useState<CartItem[]>([
+        { quantity: 1, product: products[0] },
+        { quantity: 2, product: products[1] },
+    ]);
 
     function handleSaveTable(table: string) {
         setselectedTable(table);
@@ -28,7 +35,10 @@ export function Main() {
     return (
         <>
             <Container>
-                <Header selectedTable={selectedTable} canelOrder={handleCancelOrder} />
+                <Header
+                    selectedTable={selectedTable}
+                    canelOrder={handleCancelOrder}
+                />
                 <CategoriesContainer>
                     <Categories />
                 </CategoriesContainer>
@@ -44,6 +54,7 @@ export function Main() {
                             Novo Pedido
                         </Button>
                     )}
+                    {selectedTable && <Cart cartItems={cartItens} />}
                 </FooterContainer>
             </Footer>
 
