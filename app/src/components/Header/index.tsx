@@ -1,11 +1,13 @@
+import { TouchableOpacity } from "react-native";
 import { Text } from "../Text";
-import { Container } from "./styles";
+import { Container, Content, OrderHeader, Table } from "./styles";
 
 interface HeaderProps {
     selectedTable: string;
+    canelOrder: () => void;
 }
 
-export function Header({ selectedTable }: HeaderProps) {
+export function Header({ selectedTable, canelOrder }: HeaderProps) {
     return (
         <Container>
             {!selectedTable && (
@@ -17,6 +19,24 @@ export function Header({ selectedTable }: HeaderProps) {
                         FOOD<Text size={24}>APP</Text>
                     </Text>
                 </>
+            )}
+
+            {selectedTable && (
+                <Content>
+                    <OrderHeader>
+                        <Text size={24} weight="600">
+                            Pedido
+                        </Text>
+                        <TouchableOpacity onPress={canelOrder}>
+                            <Text color="#D73035" weight="600">
+                                cancelar pedido
+                            </Text>
+                        </TouchableOpacity>
+                    </OrderHeader>
+                    <Table>
+                        <Text color="#666">Mesa {selectedTable}</Text>
+                    </Table>
+                </Content>
             )}
         </Container>
     );
