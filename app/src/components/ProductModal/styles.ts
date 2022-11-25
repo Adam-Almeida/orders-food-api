@@ -1,11 +1,5 @@
 import styled from "styled-components/native";
 
-export const Header = styled.View`
-    justify-content: space-between;
-    flex-direction: row;
-    align-items: center;
-`;
-
 export const Image = styled.ImageBackground`
     width: 100%;
     height: 200px;
@@ -22,3 +16,40 @@ export const CloseButton = styled.TouchableOpacity`
     top: 24px;
     right: 24px;
 `;
+
+export const ModalBody = styled.View`
+    flex: 1;
+    background: #fafafa;
+    padding: 32px 24px 0;
+`;
+
+export const Header = styled.View`
+    justify-content: space-between;
+`;
+
+export const IngredientsContainer = styled.View`
+    margin-top: 10px;
+`;
+
+export const Ingredient = styled.View`
+    flex-direction: row;
+    border: 1px solid rgba(204, 204, 204, 0.3);
+    border-radius: 8px;
+    padding: 6px;
+    align-items: center;
+    margin-bottom: 4px;
+`;
+
+export const Footer = styled.View`
+    min-height: 110px;
+    background: #fff;
+    padding: 16px 24px;
+`;
+
+export const FooterContainer = styled.SafeAreaView`
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+`;
+
+export const Price = styled.View``;
