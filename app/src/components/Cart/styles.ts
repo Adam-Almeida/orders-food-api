@@ -6,13 +6,16 @@ export const ContainerItem = styled.View`
     align-items: center;
     justify-content: space-between;
 `;
+
 export const ProductItem = styled.View`
     flex-direction: row;
     justify-content: space-between;
 `;
+
 export const Actions = styled.View`
     flex-direction: row;
 `;
+
 export const Image = styled.Image`
     width: 48px;
     height: 40px;
@@ -25,3 +28,11 @@ export const QuantityContainer = styled.View`
 `;
 
 export const ProductDatils = styled.View``;
+
+export const Summary = styled.View`
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+`;
+
+export const TotalContainer = styled.View``;
