@@ -20,7 +20,7 @@ export const Separator = styled.View`
     width: 100%;
     height: 1px;
     background: rgba(204, 204, 204, 0.3);
-    margin: 24px 0;
+    margin: 14px 0;
 `;
 
 export const AddToCartButton = styled.TouchableOpacity`
