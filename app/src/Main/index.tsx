@@ -1,7 +1,7 @@
 import { Header } from "../components/Header";
 import { Categories } from "../components/Categories";
 import { Menu } from "../components/Menu";
-import axios from "axios";
+import { api } from "../httpRequest/api";
 import { products as mockProducts } from "../mocks/products";
 import { categories as mockCategories } from "../mocks/categories";
 
@@ -33,15 +33,24 @@ export function Main() {
     const [categories, setCategories] = useState<Category[]>([]);
 
     useEffect(() => {
-        Promise.all([
-            axios.get("http://10.1.1.182:3001/categories"),
-            axios.get("http://10.1.1.182:3001/products"),
-        ]).then(([categoriesResponse, productsResponse]) => {
-            setProducts(productsResponse.data);
-            setCategories(categoriesResponse.data);
-            setisLoading(false);
-        });
+        Promise.all([api.get("/categories"), api.get("/products")]).then(
+            ([categoriesResponse, productsResponse]) => {
+                setProducts(productsResponse.data);
+                setCategories(categoriesResponse.data);
+                setisLoading(false);
+            }
+        );
     }, []);
+
+    async function handleSelectedCategory(categoryId: string) {
+        const route = !categoryId
+            ? "/products"
+            : `/categories/${categoryId}/products`;
+
+        const { data } = await api.get(route);
+        setProducts(data);
+        setisLoading(false);
+    }
 
     function handleSaveTable(table: string) {
         setselectedTable(table);
@@ -117,7 +126,10 @@ export function Main() {
                 {!isLoading && (
                     <>
                         <CategoriesContainer>
-                            <Categories categories={categories} />
+                            <Categories
+                                categories={categories}
+                                onSelectedCategory={handleSelectedCategory}
+                            />
                         </CategoriesContainer>
                         {products.length > 0 ? (
                             <MenuContainer>
