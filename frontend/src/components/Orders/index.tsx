@@ -7,34 +7,6 @@ import { Order } from "../../types/Order";
 import { useEffect, useState } from "react";
 import { api } from "../../httpRequest/api";
 
-// const orders: Order[] = [
-//     {
-//         _id: "6379a04407fbec26d310e0ff",
-//         table: "25",
-//         status: "WAITING",
-//         products: [
-//             {
-//                 quantity: 1,
-//                 _id: "6379a04407fbec26d3popioii",
-//                 product: {
-//                     name: "Pizza Quatro Queijos",
-//                     imagePath: "1668908831539-quatro-queijos.png",
-//                     price: 40,
-//                 },
-//             },
-//             {
-//                 quantity: 2,
-//                 _id: "6379a04407fbec26d310e211",
-//                 product: {
-//                     name: "Pizza Quatro Queijos",
-//                     imagePath: "1668908831539-quatro-queijos.png",
-//                     price: 42.6,
-//                 },
-//             },
-//         ],
-//     },
-// ];
-
 export function Orders() {
     const [orders, setOrders] = useState<Order[]>([]);
 
@@ -56,6 +28,14 @@ export function Orders() {
         );
     }
 
+    function handleOrderStatusChange(orderId: string, status: Order["status"]) {
+        setOrders((prevState) =>
+            prevState.map((order) =>
+                order._id === orderId ? { ...order, status } : order
+            )
+        );
+    }
+
     return (
         <Container>
             <Board
@@ -63,18 +43,21 @@ export function Orders() {
                 icon={alarm}
                 title="Fila de Espera"
                 orders={waiting}
+                onChangeOrderStatus={handleOrderStatusChange}
             />
             <Board
                 onCancelOrder={handleCancelOrder}
                 icon={fried}
                 title="Em Preparo"
                 orders={production}
+                onChangeOrderStatus={handleOrderStatusChange}
             />
             <Board
                 onCancelOrder={handleCancelOrder}
                 icon={checkmark}
                 title="Pronto!"
                 orders={done}
+                onChangeOrderStatus={handleOrderStatusChange}
             />
         </Container>
     );

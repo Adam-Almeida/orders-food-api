@@ -10,9 +10,16 @@ interface IProps {
     title: string;
     orders: Order[];
     onCancelOrder: (orderId: string) => void;
+    onChangeOrderStatus: (orderId: string, status: Order["status"]) => void;
 }
 
-export function Board({ icon, title, orders, onCancelOrder }: IProps) {
+export function Board({
+    icon,
+    title,
+    orders,
+    onCancelOrder,
+    onChangeOrderStatus,
+}: IProps) {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedOrder, setSelectedOrder] = useState<null | Order>(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -29,13 +36,31 @@ export function Board({ icon, title, orders, onCancelOrder }: IProps) {
 
     async function handelCancelOrder() {
         setIsLoading(true);
-        await new Promise((resolve) => setTimeout(resolve, 3000));
         await api.delete(`/orders/${selectedOrder?._id}`);
         toast.success(
             `O pedido da mesa ${selectedOrder?.table} foi cancelado.`
         );
 
         onCancelOrder(selectedOrder!._id);
+        setIsLoading(false);
+        setIsModalVisible(false);
+    }
+
+    async function handleChangeOrderStatus() {
+        setIsLoading(true);
+
+        const newStatus =
+            selectedOrder?.status === "WAITING" ? "IN_PRODUCTION" : "DONE";
+
+        await api.patch(`/orders/${selectedOrder?._id}`, { status: newStatus });
+        toast.success(
+            `O pedido da mesa ${selectedOrder?.table} ${
+                selectedOrder?.status === "WAITING"
+                    ? "foi para produção."
+                    : "está pronto!"
+            } `
+        );
+        onChangeOrderStatus(selectedOrder!._id, newStatus);
         setIsLoading(false);
         setIsModalVisible(false);
     }
@@ -48,6 +73,7 @@ export function Board({ icon, title, orders, onCancelOrder }: IProps) {
                 onClose={handleCloseModal}
                 onCancelOrder={handelCancelOrder}
                 isLoading={isLoading}
+                onChangeOrderStatus={handleChangeOrderStatus}
             />
             <header>
                 <img src={icon} />

@@ -14,6 +14,7 @@ interface IProps {
     onClose: () => void;
     onCancelOrder: () => Promise<void>;
     isLoading: boolean;
+    onChangeOrderStatus: () => void;
 }
 
 export function OrderModal({
@@ -22,6 +23,7 @@ export function OrderModal({
     onClose,
     onCancelOrder,
     isLoading,
+    onChangeOrderStatus,
 }: IProps) {
     /// fechar o modal ao precionar o esc
     useEffect(() => {
@@ -103,13 +105,24 @@ export function OrderModal({
                         <span>Total</span>
                         <strong>{formatCurrency(total)}</strong>
                     </div>
-                    <button
-                        type="button"
-                        disabled={isLoading}
-                    >
-                        <img src={fried} />
-                        Inicar Produção
-                    </button>
+                    {order.status !== "DONE" && (
+                        <button
+                            type="button"
+                            disabled={isLoading}
+                            onClick={onChangeOrderStatus}
+                        >
+                            <img
+                                src={
+                                    order.status === "WAITING"
+                                        ? fried
+                                        : checkmark
+                                }
+                            />
+                            {order.status === "WAITING"
+                                ? "Inicar Produção"
+                                : "Concluir Pedido"}
+                        </button>
+                    )}
 
                     <button
                         className="cancel"
