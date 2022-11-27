@@ -2,6 +2,7 @@ import { Header } from "../components/Header";
 import { Categories } from "../components/Categories";
 import { Menu } from "../components/Menu";
 import { products as mockProducts } from "../mocks/products";
+import { categories as mockCategories } from "../mocks/categories";
 
 import {
     Container,
@@ -20,13 +21,15 @@ import { Product } from "../types/Products";
 import { ActivityIndicator } from "react-native";
 import { Empty } from "../components/Icons/Empty";
 import { Text } from "../components/Text";
+import { Category } from "../types/Categories";
 
 export function Main() {
     const [isTableModalVisible, setIsTableModalVisible] = useState(false);
     const [selectedTable, setselectedTable] = useState("");
     const [cartItens, setCartItens] = useState<CartItem[]>([]);
     const [isLoading, setisLoading] = useState(false);
-    const [products] = useState<Product[]>(mockProducts);
+    const [products] = useState<Product[]>([]);
+    const [categories] = useState<Category[]>([]);
 
     function handleSaveTable(table: string) {
         setselectedTable(table);
@@ -102,7 +105,7 @@ export function Main() {
                 {!isLoading && (
                     <>
                         <CategoriesContainer>
-                            <Categories />
+                            <Categories categories={categories} />
                         </CategoriesContainer>
                         {products.length > 0 ? (
                             <MenuContainer>
