@@ -49,8 +49,7 @@ export function Menu({ onAddToCart, products }: MenuPros) {
                     <ProductContainer onPress={() => handleOpenModal(product)}>
                         <Image
                             source={{
-                                // uri: `http://10.1.1.182:19000/uploads/${product.imagePath}`,
-                                uri: "https://img.cybercook.com.br/receitas/559/pizza-de-presunto-e-mussarela-2-840x480.jpeg",
+                                uri: `http://10.1.1.182:3001/uploads/${product.imagePath}`,
                             }}
                         />
                         <ProductDetails>

@@ -46,7 +46,7 @@ export function ProductModal({
         >
             <Image
                 source={{
-                    uri: "https://conteudo.imguol.com.br/f5/2017/07/07/pizza-paulistana-restaurante-margherita-1499457029706_v2_900x506.jpg",
+                    uri: `http://10.1.1.182:3001/uploads/${product.imagePath}`,
                 }}
             >
                 <CloseButton onPress={onClose}>

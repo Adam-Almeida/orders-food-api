@@ -1,6 +1,7 @@
 import { Header } from "../components/Header";
 import { Categories } from "../components/Categories";
 import { Menu } from "../components/Menu";
+import axios from "axios";
 import { products as mockProducts } from "../mocks/products";
 import { categories as mockCategories } from "../mocks/categories";
 
@@ -13,7 +14,7 @@ import {
     CenteredContainer,
 } from "./styles";
 import { TableModal } from "../components/TableModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../components/Button";
 import { Cart } from "../components/Cart";
 import { CartItem } from "../types/CartItem";
@@ -27,9 +28,20 @@ export function Main() {
     const [isTableModalVisible, setIsTableModalVisible] = useState(false);
     const [selectedTable, setselectedTable] = useState("");
     const [cartItens, setCartItens] = useState<CartItem[]>([]);
-    const [isLoading, setisLoading] = useState(false);
-    const [products] = useState<Product[]>([]);
-    const [categories] = useState<Category[]>([]);
+    const [isLoading, setisLoading] = useState(true);
+    const [products, setProducts] = useState<Product[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
+
+    useEffect(() => {
+        Promise.all([
+            axios.get("http://10.1.1.182:3001/categories"),
+            axios.get("http://10.1.1.182:3001/products"),
+        ]).then(([categoriesResponse, productsResponse]) => {
+            setProducts(productsResponse.data);
+            setCategories(categoriesResponse.data);
+            setisLoading(false);
+        });
+    }, []);
 
     function handleSaveTable(table: string) {
         setselectedTable(table);

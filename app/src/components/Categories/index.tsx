@@ -38,7 +38,7 @@ export function Categories({ categories }: CategoryPropos) {
                         </Icon>
                         <Text
                             opacity={isSelected ? 1 : 0.5}
-                            size={14}
+                            size={13}
                             weight="600"
                         >
                             {category.name}
