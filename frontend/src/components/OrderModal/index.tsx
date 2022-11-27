@@ -12,9 +12,17 @@ interface IProps {
     visible: boolean;
     order: Order | null;
     onClose: () => void;
+    onCancelOrder: () => Promise<void>;
+    isLoading: boolean;
 }
 
-export function OrderModal({ visible, order, onClose }: IProps) {
+export function OrderModal({
+    visible,
+    order,
+    onClose,
+    onCancelOrder,
+    isLoading,
+}: IProps) {
     /// fechar o modal ao precionar o esc
     useEffect(() => {
         function handleKeyDown(event: KeyboardEvent) {
@@ -95,12 +103,19 @@ export function OrderModal({ visible, order, onClose }: IProps) {
                         <span>Total</span>
                         <strong>{formatCurrency(total)}</strong>
                     </div>
-                    <button>
+                    <button
+                        type="button"
+                        disabled={isLoading}
+                    >
                         <img src={fried} />
                         Inicar Produção
                     </button>
 
-                    <button className="cancel">
+                    <button
+                        className="cancel"
+                        onClick={onCancelOrder}
+                        disabled={isLoading}
+                    >
                         <strong>Cancelar Pedido</strong>
                     </button>
                 </OrderDetails>

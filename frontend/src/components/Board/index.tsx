@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { api } from "../../httpRequest/api";
 import { Order } from "../../types/Order";
 import { OrderModal } from "../OrderModal";
 import { CardBoard, OrdersContainer } from "./style";
@@ -7,11 +8,13 @@ interface IProps {
     icon: string;
     title: string;
     orders: Order[];
+    onCancelOrder: (orderId: string) => void;
 }
 
-export function Board({ icon, title, orders }: IProps) {
+export function Board({ icon, title, orders, onCancelOrder }: IProps) {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedOrder, setSelectedOrder] = useState<null | Order>(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     function handleOpenOrder(order: Order) {
         setIsModalVisible(true);
@@ -23,9 +26,25 @@ export function Board({ icon, title, orders }: IProps) {
         setSelectedOrder(null);
     }
 
+    async function handelCancelOrder() {
+        setIsLoading(true);
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        await api.delete(`/orders/${selectedOrder?._id}`);
+
+        onCancelOrder(selectedOrder?._id);
+        setIsLoading(false);
+        setIsModalVisible(false);
+    }
+
     return (
         <CardBoard>
-            <OrderModal visible={isModalVisible} order={selectedOrder} onClose={handleCloseModal} />
+            <OrderModal
+                visible={isModalVisible}
+                order={selectedOrder}
+                onClose={handleCloseModal}
+                onCancelOrder={handelCancelOrder}
+                isLoading={isLoading}
+            />
             <header>
                 <img src={icon} />
                 <strong>{title}</strong>

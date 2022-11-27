@@ -89,6 +89,8 @@ export const OrderDetails = styled.div`
         }
     }
 
+
+
     .total {
         width: 100%;
         margin-top: 1.5rem;
@@ -140,6 +142,12 @@ export const OrderDetails = styled.div`
             color: red;
         }
     }
+
+    button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
 `;
 
 interface IItenImgProps {
