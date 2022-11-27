@@ -58,9 +58,24 @@ export function Orders() {
 
     return (
         <Container>
-            <Board onCancelOrder={handleCancelOrder} icon={alarm} title="Fila de Espera" orders={waiting} />
-            <Board onCancelOrder={handleCancelOrder} icon={fried} title="Em Preparo" orders={production} />
-            <Board onCancelOrder={handleCancelOrder} icon={checkmark} title="Pronto!" orders={done} />
+            <Board
+                onCancelOrder={handleCancelOrder}
+                icon={alarm}
+                title="Fila de Espera"
+                orders={waiting}
+            />
+            <Board
+                onCancelOrder={handleCancelOrder}
+                icon={fried}
+                title="Em Preparo"
+                orders={production}
+            />
+            <Board
+                onCancelOrder={handleCancelOrder}
+                icon={checkmark}
+                title="Pronto!"
+                orders={done}
+            />
         </Container>
     );
 }

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { api } from "../../httpRequest/api";
 import { Order } from "../../types/Order";
 import { OrderModal } from "../OrderModal";
@@ -30,8 +31,11 @@ export function Board({ icon, title, orders, onCancelOrder }: IProps) {
         setIsLoading(true);
         await new Promise((resolve) => setTimeout(resolve, 3000));
         await api.delete(`/orders/${selectedOrder?._id}`);
+        toast.success(
+            `O pedido da mesa ${selectedOrder?.table} foi cancelado.`
+        );
 
-        onCancelOrder(selectedOrder?._id);
+        onCancelOrder(selectedOrder!._id);
         setIsLoading(false);
         setIsModalVisible(false);
     }
