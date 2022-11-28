@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import GeneralSansRegularWoff2 from "../assets/fonts/GeneralSans-Regular.woff2";
 import GeneralSansRegularWoff from "../assets/fonts/GeneralSans-Regular.woff";
 import GeneralSansRegularTtf from "../assets/fonts/GeneralSans-Regular.ttf";
@@ -10,7 +10,6 @@ import GeneralSansSemiboldWoff from "../assets/fonts/GeneralSans-Semibold.woff";
 import GeneralSansSemiboldTtf from "../assets/fonts/GeneralSans-Semibold.ttf";
 
 export const Global = createGlobalStyle`
-
 @font-face {
     font-family: 'GeneralSans';
     font-weight: 400;
