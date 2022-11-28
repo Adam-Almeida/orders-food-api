@@ -3,6 +3,7 @@ import express from "express";
 import mongoose from "mongoose";
 import { router } from "./routes";
 import http from "node:http";
+import { Server } from "socket.io";
 
 const port = process.env.PORT || 3001;
 const connection = "mongodb://localhost:27017";
@@ -12,6 +13,7 @@ mongoose
     .then(() => {
         const app = express();
         const server = http.createServer(app);
+        const io = new Server(server);
 
         app.use((req, res, next) => {
             res.setHeader(
