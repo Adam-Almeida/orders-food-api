@@ -9,6 +9,7 @@ export const CardBoard = styled.div`
     flex-direction: column;
     flex: 1;
 
+
     img{
         width: 2rem;
         height: 2rem;

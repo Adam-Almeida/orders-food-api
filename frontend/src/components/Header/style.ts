@@ -8,7 +8,7 @@ export const Container = styled.header`
     height: 198px;
     @media (max-width: 768px) {
         flex-direction: column;
-        padding: 0 20px;
+        padding: 0 1.5rem;
     }
 `;
 
@@ -19,9 +19,9 @@ export const Content = styled.div`
     align-items: center;
     justify-content: space-between;
 
-    img{
+    img {
         @media (max-width: 382px) {
-            width:100%;
+            width: 100%;
         }
     }
 
@@ -37,7 +37,7 @@ export const Content = styled.div`
         font-weight: 400;
     }
 
-    .page-details{
+    .page-details {
         @media (max-width: 382px) {
             display: none;
         }

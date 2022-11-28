@@ -7,7 +7,7 @@ import { Global } from "./styles/Global";
 import { Header } from "./components/Header";
 import { Orders } from "./components/Orders";
 import { Navbar } from "./components/Navbar";
-import { MainContainer } from "./components/Pages/MainContainer";
+import { MainContainer } from "./components/Layout/MainContainer";
 
 export function App() {
     return (
@@ -17,7 +17,7 @@ export function App() {
             <Navbar />
             <MainContainer>
                 <Routes>
-                    <Route path="/" element={<Orders />} />
+                    <Route path="/orders" element={<Orders />} />
                 </Routes>
             </MainContainer>
             <ToastContainer position="bottom-center" />
