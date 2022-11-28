@@ -6,9 +6,19 @@ import checkmark from "../../assets/images/checkmark.png";
 import { Order } from "../../types/Order";
 import { useEffect, useState } from "react";
 import { api } from "../../httpRequest/api";
+import socketIo from "socket.io-client";
 
 export function Orders() {
     const [orders, setOrders] = useState<Order[]>([]);
+
+    useEffect(() => {
+        const socket = socketIo("http://localhost:3001", {
+            transports: ["websocket"],
+        });
+        socket.on("order@new", (order) => {
+            setOrders((prevState) => prevState.concat(order));
+        });
+    }, []);
 
     useEffect(() => {
         api.get("/orders").then(({ data }) => {

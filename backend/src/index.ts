@@ -7,13 +7,13 @@ import { Server } from "socket.io";
 
 const port = process.env.PORT || 3001;
 const connection = "mongodb://localhost:27017";
+const app = express();
+const server = http.createServer(app);
+export const io = new Server(server);
 
 mongoose
     .connect(connection)
     .then(() => {
-        const app = express();
-        const server = http.createServer(app);
-        const io = new Server(server);
 
         app.use((req, res, next) => {
             res.setHeader(
