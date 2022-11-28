@@ -6,6 +6,10 @@ export const Container = styled.header`
     justify-content: center;
     align-items: center;
     height: 198px;
+    @media (max-width: 768px) {
+        flex-direction: column;
+        padding: 0 20px;
+    }
 `;
 
 export const Content = styled.div`
@@ -14,6 +18,12 @@ export const Content = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    img{
+        @media (max-width: 382px) {
+            width:100%;
+        }
+    }
 
     h1 {
         color: var(--white);
@@ -25,5 +35,11 @@ export const Content = styled.div`
         color: var(--white);
         font-size: 1rem;
         font-weight: 400;
+    }
+
+    .page-details{
+        @media (max-width: 382px) {
+            display: none;
+        }
     }
 `;
