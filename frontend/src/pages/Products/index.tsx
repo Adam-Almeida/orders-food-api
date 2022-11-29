@@ -7,7 +7,13 @@ import {
     ItenImg,
 } from "./styles";
 import closeIcon from "../../assets/images/close-icon.svg";
-import { FiTrash2, FiXCircle } from "react-icons/fi";
+import PlainList from "flatlist-react";
+import {
+    FiTrash2,
+    FiXCircle,
+    FiArrowDownCircle,
+    FiUpload,
+} from "react-icons/fi";
 import { useEffect } from "react";
 import { formatCurrency } from "../../utils/formatCurrency";
 
@@ -26,6 +32,30 @@ const mockProducts = [
     },
     {
         id: "2",
+        imagePath:
+            "http://joselito.com.br/wp-content/uploads/pizza-wallpaper-olives-mushrooms-cheese-tomatoes-parsley-dish-food.jpg",
+        title: "Pizza de Gorgonzola com Bacon",
+        description: "Pizza de Gorgonzola com Bacon delicisa",
+        ingredients: [
+            { icon: "🥓", name: "Bacon" },
+            { icon: "🧀", name: "Queijo Gorgonzola" },
+        ],
+        price: 15.0,
+    },
+    {
+        id: "3",
+        imagePath:
+            "http://joselito.com.br/wp-content/uploads/pizza-wallpaper-olives-mushrooms-cheese-tomatoes-parsley-dish-food.jpg",
+        title: "Pizza de Gorgonzola com Bacon",
+        description: "Pizza de Gorgonzola com Bacon delicisa",
+        ingredients: [
+            { icon: "🥓", name: "Bacon" },
+            { icon: "🧀", name: "Queijo Gorgonzola" },
+        ],
+        price: 15.0,
+    },
+    {
+        id: "4",
         imagePath:
             "http://joselito.com.br/wp-content/uploads/pizza-wallpaper-olives-mushrooms-cheese-tomatoes-parsley-dish-food.jpg",
         title: "Pizza de Gorgonzola com Bacon",
@@ -73,16 +103,24 @@ export function Products({ visible, onClose }: IProps) {
                     </button>
                 </header>
                 <Container>
-                    <select name="goodies" id="goodies">
-                        <option>Selecione a Categoria</option>
-                        <option value="donut">🍩 Doces Assados</option>
-                        <option value="cookie">🍪 Cokies</option>
-                        <option value="hotdog">🌭 Hot-Dog</option>
-                        <option value="bacon">🥓 Com Adicionais</option>
-                        <option value="hamburger">🍔 Hamburgueres</option>
-                        <option value="brocolli">🥦 Vegetais</option>
-                    </select>
-
+                    <section className="inputs-category-file">
+                        <select name="goodies" id="goodies">
+                            <option>Selecione a Categoria</option>
+                            <option value="donut">🍩 Doces Assados</option>
+                            <option value="cookie">🍪 Cokies</option>
+                            <option value="hotdog">🌭 Hot-Dog</option>
+                            <option value="bacon">🥓 Com Adicionais</option>
+                            <option value="hamburger">🍔 Hamburgueres</option>
+                            <option value="brocolli">🥦 Vegetais</option>
+                        </select>
+                        <input
+                            type="file"
+                            name="file"
+                            id="file"
+                            className="inputfile"
+                        />
+                        <label htmlFor="file"><FiUpload/>Anexar Imagem</label>
+                    </section>
                     <input placeholder="Digite o nome do produto" />
 
                     <section className="inputs-ingredients">
@@ -117,30 +155,49 @@ export function Products({ visible, onClose }: IProps) {
 
                     <button type="submit">Cadastrar Novo Produto</button>
                 </Container>
-                {mockProducts.map((product) => (
-                    <ListProducts key={product.id}>
-                        <div className="iten">
-                            <ItenImg image={`${product.imagePath}`} />
-                            <div className="product-details">
-                                <strong>{product.title}</strong>
-                                <span>{product.description}</span>
-                                <section>
-                                    {product.ingredients.map((ingredient) => (
-                                        <div key={ingredient.name}>
-                                            <span>{ingredient.icon}</span>
-                                            <span>{ingredient.name}</span>
-                                        </div>
-                                    ))}
-                                </section>
-                                <span>{formatCurrency(product.price)}</span>
+                {mockProducts.length > 0 && (
+                    <span>
+                        <FiArrowDownCircle />
+                        Existem&nbsp;<strong>{mockProducts.length}</strong>
+                        &nbsp;produtos cadastrados.
+                    </span>
+                )}
+                <PlainList
+                    list={mockProducts}
+                    renderWhenEmpty={() => <div>List is empty!</div>}
+                    renderItem={(product) => (
+                        <ListProducts key={product.id}>
+                            <div className="iten">
+                                <ItenImg image={`${product.imagePath}`} />
+                                <div className="product-details">
+                                    <strong>{product.title}</strong>
+                                    <span>{product.description}</span>
+                                    <section>
+                                        {product.ingredients.map(
+                                            (ingredient) => (
+                                                <div key={ingredient.name}>
+                                                    <span>
+                                                        {ingredient.icon}
+                                                    </span>
+                                                    <span>
+                                                        {ingredient.name}
+                                                    </span>
+                                                </div>
+                                            )
+                                        )}
+                                    </section>
+                                    <span>{formatCurrency(product.price)}</span>
+                                </div>
                             </div>
-                        </div>
 
-                        <button className="actions">
-                            <FiTrash2 />
-                        </button>
-                    </ListProducts>
-                ))}
+                            <button className="actions">
+                                <FiTrash2 />
+                            </button>
+                        </ListProducts>
+                    )}
+                    wrapperHtmlTag="div"
+                    className="flatlist"
+                />
             </ModalBody>
         </Overlay>
     );

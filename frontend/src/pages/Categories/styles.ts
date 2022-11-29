@@ -34,15 +34,58 @@ export const ModalBody = styled.div`
             background: transparent;
         }
     }
+
+    > span {
+        display: flex;
+        padding: 0.5rem 0;
+        font-weight: 500;
+        margin-top: 1rem;
+        > strong {
+            color: var(--theme);
+        }
+        > svg {
+            width: 22px;
+            height: 22px;
+            margin-right: 0.5rem;
+        }
+    }
+
+    .flatlist {
+        padding: 0 0.5rem;
+        margin-top: 0.5rem;
+        overflow: auto;
+        height: 250px;
+
+        /* Works on Firefox */
+        scrollbar-width: thin;
+        scrollbar-color: var(--theme) var(--gray-100);
+
+        /* Works on Chrome, Edge, and Safari */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--gray-100);
+            border-radius: 2rem;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: var(--theme);
+            border-radius: 20px;
+            border: 3px solid var(--gray-100);
+        }
+    }
 `;
 
 export const Container = styled.form`
+    margin-top: 1rem;
     .inputs-icon-name {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         select {
-            width: 32%;
+            width: 18%;
             padding: 0 1.5rem;
             height: 3.5rem;
             border-radius: 3rem;
@@ -51,11 +94,10 @@ export const Container = styled.form`
             background: #e7e9ee;
             font-weight: 400;
             font-size: 1rem;
-            margin-top: 2rem;
         }
 
         input {
-            width: 65%;
+            width: 80%;
             padding: 0 1.5rem;
             height: 3.5rem;
             border-radius: 3rem;
@@ -63,7 +105,6 @@ export const Container = styled.form`
             background: #e7e9ee;
             font-weight: 400;
             font-size: 1rem;
-            margin-top: 2rem;
 
             &::placeholder {
                 color: var(--gray-200);
@@ -94,6 +135,7 @@ export const Container = styled.form`
 `;
 
 export const ListCategories = styled.div`
+    position: relative;
     background: var(--gray-100);
     width: 100%;
     display: flex;
@@ -112,17 +154,17 @@ export const ListCategories = styled.div`
         display: flex;
         font-size: 1.3rem;
         gap: 5px;
-
     }
 
     .actions {
+        top: 0.5rem;
+        right: 0.5rem;
         padding: 0.5rem;
-        background: var(--gray-100);
         border: none;
-        font-size: 2rem;
+        font-size: 1.5rem;
         align-items: center;
         display: flex;
-        border-radius: 0.25rem;
+        border-radius: 2rem;
         transition: filter 0.2s;
         &:hover {
             filter: brightness(0.9);
