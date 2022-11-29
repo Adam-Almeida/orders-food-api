@@ -6,8 +6,9 @@ import { Global } from "./styles/Global";
 
 import { Header } from "./components/Header";
 import { Orders } from "./components/Orders";
-import { Navbar } from "./components/Navbar";
-import { MainContainer } from "./components/Layout/MainContainer";
+import { Navbar } from "./pages/Layout/Navbar";
+import { MainContainer } from "./pages/Layout/MainContainer";
+import { FinishingTables } from "./pages/FinishingTables";
 
 export function App() {
     return (
@@ -18,6 +19,10 @@ export function App() {
             <MainContainer>
                 <Routes>
                     <Route path="/orders" element={<Orders />} />
+                    <Route
+                        path="/finishing-tables"
+                        element={<FinishingTables />}
+                    />
                 </Routes>
             </MainContainer>
             <ToastContainer position="bottom-center" />

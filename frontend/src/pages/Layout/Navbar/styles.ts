@@ -33,22 +33,12 @@ export const Content = styled.div`
         flex: 1;
         background: #fff;
         font-weight: 500;
-
-        svg {
-            width: 42px;
-            height: 42px;
-            padding: 0.5rem;
-            background: var(--theme);
-            color: var(--white);
-            margin-right: 1rem;
-            border-radius: 0.25rem;
-        }
     }
 
-    /* a:after {
+    a:after {
         content: "";
         position: absolute;
-        width: 100%;
+        width: 89%;
         height: 2px;
         bottom: 0px;
         transform: scaleX(0);
@@ -68,5 +58,20 @@ export const Content = styled.div`
         :after {
             background: #09844f;
         }
-    } */
+
+        svg {
+            color: #a3eece;
+            background: #09844f;
+        }
+    }
+
+    svg {
+        width: 42px;
+        height: 42px;
+        padding: 0.5rem;
+        background: var(--theme);
+        color: var(--white);
+        margin-right: 1rem;
+        border-radius: 0.25rem;
+    }
 `;
