@@ -131,6 +131,11 @@ export const Container = styled.form`
         &:hover {
             filter: brightness(0.9);
         }
+
+        :disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
     }
 `;
 
