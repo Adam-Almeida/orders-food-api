@@ -9,21 +9,6 @@ import { toast } from "react-toastify";
 import { Category } from "../../types/Category";
 import { Loader } from "../../components/Loader";
 
-const mockCategories = [
-    { id: "1", icon: "🥬", title: "Saladas" },
-    { id: "2", icon: "🍕", title: "Pizzas" },
-    { id: "3", icon: "🍔", title: "Hamburguers" },
-    { id: "4", icon: "🥬", title: "Saladas" },
-    { id: "5", icon: "🍕", title: "Pizzas" },
-    { id: "6", icon: "🍔", title: "Hamburguers" },
-    { id: "7", icon: "🥬", title: "Saladas" },
-    { id: "8", icon: "🍕", title: "Pizzas" },
-];
-
-// for (let index = 0; index < 1000; index++) {
-//     mockCategories.push({ id: "1", icon: "🍕", title: "Pizzas" });
-// }
-
 interface IProps {
     visible: boolean;
     onClose: () => void;
@@ -31,11 +16,19 @@ interface IProps {
 
 export function Categories({ visible, onClose }: IProps) {
     const [isLoading, setIsLoading] = useState(false);
-
+    const [listCategories, setListCategories] = useState<Category[]>([]);
     const [category, setCategory] = useState<Category>({
         name: "",
         icon: "",
     });
+
+    useEffect(() => {
+        setIsLoading(true);
+        api.get("/categories").then(({ data }) => {
+            setListCategories(data);
+        });
+        setIsLoading(false);
+    }, [handleSubmit]);
 
     function handleInputChange(
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -56,9 +49,17 @@ export function Categories({ visible, onClose }: IProps) {
         await api.post("/categories", category);
         toast.success(`A Categoria ${category.name} foi criada com sucesso.`);
         setIsLoading(false);
+        setCategory({ name: "", icon: "" });
     }
 
-    /// fechar o modal ao precionar o esc
+    async function handleDeleteCategory(id?: string) {
+        setIsLoading(true);
+        alert(`Excluiu ${id}`);
+        // await api.delete(`/categories/${id}`);
+        toast.success("A Categoria foi excluída com sucesso.");
+        setIsLoading(false);
+    }
+
     useEffect(() => {
         function handleKeyDown(event: KeyboardEvent) {
             if (event.key === "Escape") {
@@ -89,6 +90,7 @@ export function Categories({ visible, onClose }: IProps) {
                 <Container onSubmit={handleSubmit}>
                     <section className="inputs-icon-name">
                         <select
+                            value={category.icon}
                             name="icon"
                             id="icon"
                             onChange={(e) => handleInputChange(e)}
@@ -105,6 +107,7 @@ export function Categories({ visible, onClose }: IProps) {
                             onChange={(e) => handleInputChange(e)}
                             id="name"
                             name="name"
+                            value={category.name}
                             placeholder="Digite o nome da categoria"
                         />
                     </section>
@@ -112,25 +115,30 @@ export function Categories({ visible, onClose }: IProps) {
                         Cadastrar Nova Categoria
                     </button>
                 </Container>
-                {mockCategories.length > 0 && (
+                {listCategories.length > 0 && (
                     <span>
                         <FiArrowDownCircle />
-                        Existem&nbsp;<strong>{mockCategories.length}</strong>
+                        Existem&nbsp;<strong>{listCategories.length}</strong>
                         &nbsp;categorias cadastradas.
                     </span>
                 )}
 
-                {isLoading ? (
+                {!isLoading ? (
                     <PlainList
-                        list={mockCategories}
+                        list={listCategories}
                         renderWhenEmpty={() => <div>List is empty!</div>}
                         renderItem={(category) => (
-                            <ListCategories key={category.id}>
+                            <ListCategories key={category._id}>
                                 <div className="details">
                                     <span>{category.icon}</span>
-                                    <p>{category.title}</p>
+                                    <p>{category.name}</p>
                                 </div>
-                                <button className="actions">
+                                <button
+                                    onClick={() =>
+                                        handleDeleteCategory(category._id)
+                                    }
+                                    className="actions"
+                                >
                                     <FiTrash2 />
                                 </button>
                             </ListCategories>

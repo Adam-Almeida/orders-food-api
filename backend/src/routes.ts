@@ -10,6 +10,7 @@ import listOrders from "./app/useCases/orders/listOrders";
 import createOrders from "./app/useCases/orders/createOrders";
 import changeOrderStatus from "./app/useCases/orders/changeOrderStatus";
 import deletedOrder from "./app/useCases/orders/deletedOrder";
+import deleteCategory from "./app/useCases/categories/deleteCategory";
 
 export const router = Router();
 
@@ -27,6 +28,9 @@ router.post("/products", upload.single("image"), createProducts.handle);
 
 //get product by categorie
 router.get("/categories/:id/products", listProductsByCategory.handle);
+
+//delete product by categorie
+router.delete("/categories/:id", deleteCategory.handle);
 
 //list orders
 router.get("/orders", listOrders.handle);
