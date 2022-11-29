@@ -1,5 +1,9 @@
-import { Container } from "./styles";
+import { Container, Loading } from "./styles";
 
 export function Loader() {
-    return <Container />;
+    return (
+        <Container>
+            <Loading />
+        </Container>
+    );
 }
