@@ -209,12 +209,13 @@ export const IngredientList = styled.div`
         display: flex;
         justify-content: space-between;
         align-items: center;
+        font-size: 0.8rem;
         background: var(--gray-100);
-        padding: 0.2rem 1rem;
+        padding: 0.15rem 1rem;
         border-radius: 30px;
         > button {
             border: none;
-            padding: 0.5rem;
+            padding: 0.2rem;
             background: none;
 
             svg {

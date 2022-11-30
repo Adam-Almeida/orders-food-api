@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { Category } from "../../types/Category";
 import { api } from "../../httpRequest/api";
+import { Product } from "../../types/Product";
 
 const mockProducts = [
     {
@@ -77,12 +78,33 @@ interface IProps {
 
 export function Products({ visible, onClose }: IProps) {
     const [listCategories, setListCategories] = useState<Category[]>([]);
+    const [ingredientes, setIngredientes] = useState<Product["ingredients"]>(
+        []
+    );
+
+    function addListChange(e: React.ChangeEvent<HTMLSelectElement>) {
+        const newIngredient = e.currentTarget.value;
+        const [_id, icon, name] = newIngredient.split("-");
+        if (_id && icon && name) {
+            setIngredientes([...ingredientes, { _id, icon, name }]);
+        }
+    }
+
+    function handleRemoveIngredients(id: string) {
+        const index = ingredientes.findIndex((item) => item._id === id);
+        ingredientes.splice(index, 1);
+        setIngredientes([...ingredientes]);
+    }
+
+    useEffect(() => {
+        [ingredientes];
+    });
 
     useEffect(() => {
         api.get("/categories").then(({ data }) => {
             setListCategories(data);
         });
-    }, [onClose]);
+    }, [listCategories]);
 
     useEffect(() => {
         function handleKeyDown(event: KeyboardEvent) {
@@ -135,33 +157,34 @@ export function Products({ visible, onClose }: IProps) {
                     <input placeholder="Digite o nome do produto" />
 
                     <section className="inputs-ingredients">
-                        <select name="goodies" id="goodies">
+                        <select
+                            onChange={(e) => addListChange(e)}
+                            name="ingredient"
+                            id="ingredient"
+                        >
                             <option>Selecione o Ingrediente</option>
-                            <option value="bacon">🥓 Bacon</option>
-                            <option value="bacon">🧀 Queijo</option>
-                            <option value="bacon">🍞 Pão Fresco</option>
+                            <option value="1-🥓-Bacon">🥓 Bacon</option>
+                            <option value="2-🧀-Queijo">🧀 Queijo</option>
+                            <option value="3-🍞-Pão Fresco">
+                                🍞 Pão Fresco
+                            </option>
                         </select>
                         <button type="button">Adicionar Ingrediente</button>
                     </section>
                     <IngredientList>
-                        <span>
-                            🍞 Pão Fresco
-                            <button>
-                                <FiXCircle />
-                            </button>
-                        </span>
-                        <span>
-                            🥓 Bacon
-                            <button>
-                                <FiXCircle />
-                            </button>
-                        </span>
-                        <span>
-                            🍞 Pão Fresco
-                            <button>
-                                <FiXCircle />
-                            </button>
-                        </span>
+                        {ingredientes.map((ingredient, index) => (
+                            <span key={index}>
+                                {ingredient.icon}&nbsp;{ingredient.name}
+                                <button
+                                    type="button"
+                                    onClick={() =>
+                                        handleRemoveIngredients(ingredient._id)
+                                    }
+                                >
+                                    <FiXCircle />
+                                </button>
+                            </span>
+                        ))}
                     </IngredientList>
 
                     <button type="submit">Cadastrar Novo Produto</button>
