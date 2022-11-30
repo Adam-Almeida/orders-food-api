@@ -64,17 +64,6 @@ export function Categories({ visible, onClose }: IProps) {
                     toast.error(error.response.data.error);
                 }
             });
-
-        // setIsLoading(true);
-        // await api
-        //     .delete(`/categories/${id}`)
-        //     .then(() => {
-        //         toast.success("A Categoria foi excluída com sucesso.");
-        //     })
-        //     .catch((error) => {
-        //         alert(error.data);
-        //     });
-        // setIsLoading(false);
     }
 
     useEffect(() => {

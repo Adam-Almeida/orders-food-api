@@ -14,8 +14,10 @@ import {
     FiArrowDownCircle,
     FiUpload,
 } from "react-icons/fi";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { formatCurrency } from "../../utils/formatCurrency";
+import { Category } from "../../types/Category";
+import { api } from "../../httpRequest/api";
 
 const mockProducts = [
     {
@@ -74,7 +76,14 @@ interface IProps {
 }
 
 export function Products({ visible, onClose }: IProps) {
-    /// fechar o modal ao precionar o esc
+    const [listCategories, setListCategories] = useState<Category[]>([]);
+
+    useEffect(() => {
+        api.get("/categories").then(({ data }) => {
+            setListCategories(data);
+        });
+    }, [onClose]);
+
     useEffect(() => {
         function handleKeyDown(event: KeyboardEvent) {
             if (event.key === "Escape") {
@@ -106,12 +115,11 @@ export function Products({ visible, onClose }: IProps) {
                     <section className="inputs-category-file">
                         <select name="goodies" id="goodies">
                             <option>Selecione a Categoria</option>
-                            <option value="donut">🍩 Doces Assados</option>
-                            <option value="cookie">🍪 Cokies</option>
-                            <option value="hotdog">🌭 Hot-Dog</option>
-                            <option value="bacon">🥓 Com Adicionais</option>
-                            <option value="hamburger">🍔 Hamburgueres</option>
-                            <option value="brocolli">🥦 Vegetais</option>
+                            {listCategories.map((category) => (
+                                <option key={category._id} value="donut">
+                                    {category.icon} {category.name}
+                                </option>
+                            ))}
                         </select>
                         <input
                             type="file"
@@ -119,7 +127,10 @@ export function Products({ visible, onClose }: IProps) {
                             id="file"
                             className="inputfile"
                         />
-                        <label htmlFor="file"><FiUpload/>Anexar Imagem</label>
+                        <label htmlFor="file">
+                            <FiUpload />
+                            Anexar Imagem
+                        </label>
                     </section>
                     <input placeholder="Digite o nome do produto" />
 
