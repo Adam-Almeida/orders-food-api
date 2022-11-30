@@ -58,6 +58,7 @@ export const Global = createGlobalStyle`
     --theme: #D73035;
     --primary: #8A1114;
     --secondary: #FFABAD;
+    --toastify-toast-width: 500px;
 }
 
 @media (max-width: 1080px) {

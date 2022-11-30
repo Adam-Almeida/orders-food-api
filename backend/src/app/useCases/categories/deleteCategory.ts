@@ -18,7 +18,7 @@ class deleteCategory {
             const products = await Product.find().where("category").equals(id);
 
             if (products.length > 0) {
-                res.status(402).json({
+                res.status(400).json({
                     error: "Exclua os produtos desta categoria primeiro.",
                 });
                 return;

@@ -4,7 +4,7 @@ import { Category } from "../../models/Category";
 class ListCategories {
     async handle(req: Request, res: Response) {
         try {
-            const categories = await Category.find().sort([['name', 1]]).exec();
+            const categories = await Category.find().sort({ _id: -1 }).exec();
             res.json(categories);
         } catch (error) {
             console.error(error);

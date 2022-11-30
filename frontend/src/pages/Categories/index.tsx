@@ -28,7 +28,7 @@ export function Categories({ visible, onClose }: IProps) {
             setListCategories(data);
         });
         setIsLoading(false);
-    }, [handleSubmit]);
+    }, [handleSubmit, handleDeleteCategory]);
 
     function handleInputChange(
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -53,11 +53,28 @@ export function Categories({ visible, onClose }: IProps) {
     }
 
     async function handleDeleteCategory(id?: string) {
-        setIsLoading(true);
-        alert(`Excluiu ${id}`);
-        // await api.delete(`/categories/${id}`);
-        toast.success("A Categoria foi excluída com sucesso.");
-        setIsLoading(false);
+        await api
+            .delete(`/categories/${id}`)
+            .then((response) => {
+                toast.success("A Categoria foi excluída com sucesso.");
+                console.log(response.data);
+            })
+            .catch(function (error) {
+                if (error.response) {
+                    toast.error(error.response.data.error);
+                }
+            });
+
+        // setIsLoading(true);
+        // await api
+        //     .delete(`/categories/${id}`)
+        //     .then(() => {
+        //         toast.success("A Categoria foi excluída com sucesso.");
+        //     })
+        //     .catch((error) => {
+        //         alert(error.data);
+        //     });
+        // setIsLoading(false);
     }
 
     useEffect(() => {
