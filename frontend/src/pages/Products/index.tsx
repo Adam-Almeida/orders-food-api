@@ -17,7 +17,7 @@ import {
 import { useEffect, useState } from "react";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { Category } from "../../types/Category";
-import { api } from "../../httpRequest/api";
+import { api, apiUpload } from "../../httpRequest/api";
 import { Product } from "../../types/Product";
 import { toast } from "react-toastify";
 
@@ -77,13 +77,26 @@ interface IProps {
     onClose: () => void;
 }
 
+interface IProductPayload {
+    name: string;
+    description: string;
+    ingredients: Product["ingredients"];
+    price: string;
+    category: string;
+}
+
 export function Products({ visible, onClose }: IProps) {
+    const [isLoading, setIsLoading] = useState(false);
     const [listCategories, setListCategories] = useState<Category[]>([]);
     const [ingredients, setIngredients] = useState<Product["ingredients"]>([]);
-    const [disabledButton, setDisabledButton] = useState(false);
-
     const [upfile, setUpfile] = useState({});
-    const [product, setProduct] = useState([{}]);
+    const [product, setProduct] = useState<IProductPayload>({
+        name: "",
+        description: "",
+        ingredients: [],
+        price: "",
+        category: "",
+    });
 
     function uploadHandler(event: React.FormEvent<HTMLInputElement>) {
         const target = event.target as HTMLInputElement;
@@ -93,7 +106,24 @@ export function Products({ visible, onClose }: IProps) {
         }
 
         const file = target.files[0];
-        setUpfile(file);
+        const formData = new FormData();
+
+        const payload = {
+            name: product.name,
+            description: product.description,
+            ingredients: JSON.stringify(ingredients),
+            price: product.price,
+            category: product.category,
+        };
+
+        formData.append("image", file, file.name);
+        formData.append("name", payload.name);
+        formData.append("ingredients", payload.ingredients);
+        formData.append("description", payload.description);
+        formData.append("price", payload.price);
+        formData.append("category", payload.category);
+
+        setUpfile(formData);
     }
 
     function handleInputChange(
@@ -107,39 +137,37 @@ export function Products({ visible, onClose }: IProps) {
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        // if (isNaN(product.price)) {
-        //     toast.warning("O Preço não parece um valor válido.");
-        //     return;
-        // }
+        if (isNaN(Number(product.price))) {
+            toast.warning("O Preço não parece um valor válido.");
+            return;
+        }
         // if (!product.name || !product.price || product.category.length === 0) {
         //     toast.warning("Prencha todos os campos.");
         //     return;
         // }
 
-        const formData = new FormData();
-
-
-        const payload = {};
-
-        // setDisabledButton(true);
-        await api.post("/products", payload).catch((error) => {
-            console.log(error);
-        });
-        // toast.success(`O Produto foi criado com sucesso.`);
-        // setDisabledButton(false);
+        try {
+            await apiUpload.post("/products", upfile).then(() => {
+                toast.success(
+                    `O Produto ${product.name} foi criado com sucesso.`
+                );
+            });
+        } catch (error: any) {
+            toast.error(error.response.data.error);
+        }
     }
 
     function addListChange(e: React.ChangeEvent<HTMLSelectElement>) {
         const newIngredient = e.currentTarget.value;
         const [_id, icon, name] = newIngredient.split("-");
         if (_id && icon && name) {
-            setIngredients([...ingredients, { icon, name }]);
+            setIngredients([...ingredients!, { icon, name }]);
         }
     }
 
     function handleRemoveIngredients(index: number) {
-        ingredients.splice(index, 1);
-        setIngredients([...ingredients]);
+        ingredients!.splice(index, 1);
+        setIngredients([...ingredients!]);
     }
 
     useEffect(() => {
@@ -179,7 +207,7 @@ export function Products({ visible, onClose }: IProps) {
                         <img src={closeIcon} alt="Fechar" />
                     </button>
                 </header>
-                <Container onSubmit={handleSubmit}>
+                <Container onSubmit={handleSubmit} name="adamFormn">
                     <section className="inputs-category-file">
                         <select
                             onChange={handleInputChange}
@@ -242,7 +270,7 @@ export function Products({ visible, onClose }: IProps) {
                         />
                     </section>
                     <IngredientList>
-                        {ingredients.map((ingredient, index) => (
+                        {ingredients!.map((ingredient, index) => (
                             <span key={index}>
                                 {ingredient.icon}&nbsp;{ingredient.name}
                                 <button
@@ -257,7 +285,7 @@ export function Products({ visible, onClose }: IProps) {
                         ))}
                     </IngredientList>
 
-                    <button disabled={disabledButton} type="submit">
+                    <button disabled={isLoading} type="submit">
                         Cadastrar Novo Produto
                     </button>
                 </Container>

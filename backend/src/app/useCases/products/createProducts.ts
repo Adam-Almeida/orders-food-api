@@ -1,25 +1,39 @@
 import { Request, Response } from "express";
+import fs from "node:fs";
+import path from "node:path";
 import mongoose from "mongoose";
 import { Product } from "../../models/Product";
 
 class createProducts {
     async handle(req: Request, res: Response) {
-
-
-        console.log(req);
-        return;
-
         try {
             const imagePath = req.file?.filename;
-
-
             const { name, description, price, category, ingredients } =
                 req.body;
 
-            // if (!name || !description || !price || !category || !ingredients) {
-            //     res.status(400).json({ error: "Preencha todos os campos." });
-            //     return;
-            // }
+            if (!name || !price || !category) {
+                res.status(400).json({ error: "Preencha todos os campos." });
+                const uploadDir = path.resolve(
+                    __dirname,
+                    "..",
+                    "..",
+                    "..",
+                    "..",
+                    "uploads"
+                );
+                const exists = fs.existsSync(uploadDir);
+
+                if (exists) {
+                    fs.unlink(`${uploadDir}/${imagePath}`, (err) => {
+                        if (err) {
+                            res.status(400).json({
+                                error: `Erro ao excluir uploads anterios. ${err?.message}`,
+                            });
+                        }
+                    });
+                }
+                return;
+            }
 
             const newCategory = new mongoose.Types.ObjectId(category);
             const product = await Product.create({

@@ -4,9 +4,9 @@ export interface Product {
         description: string;
         price: number;
         category: string;
-        ingredients: {
+        ingredients?: {
             name: string;
             icon: string;
         }[];
-        imagePath: string;
+        imagePath?: string;
 }
