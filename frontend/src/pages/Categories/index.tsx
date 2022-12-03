@@ -4,10 +4,14 @@ import closeIcon from "../../assets/images/close-icon.svg";
 import { FiTrash2, FiArrowDownCircle } from "react-icons/fi";
 import { useEffect, useState } from "react";
 import { emojis } from "../../mocks/emojis";
-import { api } from "../../httpRequest/api";
 import { toast } from "react-toastify";
 import { Category } from "../../types/Category";
 import { Loader } from "../../components/Loader";
+import {
+    deleteCategory,
+    getCategories,
+    postCategory,
+} from "../../services/Category.service";
 
 interface IProps {
     visible: boolean;
@@ -22,13 +26,13 @@ export function Categories({ visible, onClose }: IProps) {
         icon: "",
     });
 
+    async function fetchCategories() {
+        await getCategories().then(setListCategories);
+    }
+
     useEffect(() => {
-        setIsLoading(true);
-        api.get("/categories").then(({ data }) => {
-            setListCategories(data);
-        });
-        setIsLoading(false);
-    }, [handleSubmit, handleDeleteCategory]);
+        fetchCategories();
+    }, [isLoading]);
 
     function handleInputChange(
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -42,28 +46,31 @@ export function Categories({ visible, onClose }: IProps) {
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         if (!category.icon || !category.name) {
-            toast.warning("Prrencha todos os campos.");
+            toast.warning("Preencha todos os campos.");
             return;
         }
+
         setIsLoading(true);
-        await api.post("/categories", category);
-        toast.success(`A Categoria ${category.name} foi criada com sucesso.`);
+        await postCategory(category).then(() => {
+            toast.success(
+                `A Categoria ${category.name} foi criada com sucesso.`
+            );
+        });
+        setCategory({ icon: "", name: "" });
         setIsLoading(false);
-        setCategory({ name: "", icon: "" });
     }
 
-    async function handleDeleteCategory(id?: string) {
-        await api
-            .delete(`/categories/${id}`)
-            .then((response) => {
+    async function handleDeleteCategory(id: string) {
+        try {
+            setIsLoading(true);
+            await deleteCategory(id).then(() => {
                 toast.success("A Categoria foi excluída com sucesso.");
-                console.log(response.data);
-            })
-            .catch(function (error) {
-                if (error.response) {
-                    toast.error(error.response.data.error);
-                }
             });
+            setIsLoading(false);
+        } catch (error: any) {
+            toast.error(error.response.data.error);
+            setIsLoading(false);
+        }
     }
 
     useEffect(() => {
@@ -133,7 +140,7 @@ export function Categories({ visible, onClose }: IProps) {
                     <PlainList
                         list={listCategories}
                         renderWhenEmpty={() => <div>List is empty!</div>}
-                        renderItem={(category) => (
+                        renderItem={({ ...category }) => (
                             <ListCategories key={category._id}>
                                 <div className="details">
                                     <span>{category.icon}</span>
@@ -141,7 +148,7 @@ export function Categories({ visible, onClose }: IProps) {
                                 </div>
                                 <button
                                     onClick={() =>
-                                        handleDeleteCategory(category._id)
+                                        handleDeleteCategory(category._id!)
                                     }
                                     className="actions"
                                 >

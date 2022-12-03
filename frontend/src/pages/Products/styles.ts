@@ -133,7 +133,7 @@ export const Container = styled.form`
         margin-top: 1rem;
 
         select {
-            width: 58%;
+            width: 49%;
             padding: 0 1.5rem;
             height: 3.5rem;
             border-radius: 3rem;
@@ -143,20 +143,21 @@ export const Container = styled.form`
             font-size: 1rem;
         }
 
-        button {
-            border: none;
-            border-radius: 3rem;
-            background: var(--theme);
-            width: 40%;
+        > input {
+            width: 49%;
             padding: 0 1.5rem;
-            height: 4rem;
-            font-weight: 600;
-            color: var(--white);
+            height: 3.5rem;
+            border-radius: 3rem;
+            border: 1px solid #d7d7d7;
+            background: #e7e9ee;
+            font-weight: 400;
+            font-size: 1rem;
 
-            transition: filter 0.2s;
-            &:hover {
-                filter: brightness(0.9);
+            &::placeholder {
+                color: var(--gray-400);
             }
+
+
         }
     }
 
@@ -172,7 +173,7 @@ export const Container = styled.form`
         margin-top: 1rem;
 
         &::placeholder {
-            color: var(--gray-200);
+            color: var(--gray-400);
         }
 
         & + input {
@@ -195,6 +196,10 @@ export const Container = styled.form`
         &:hover {
             filter: brightness(0.9);
         }
+
+        :disabled {
+        opacity: 0.5;
+    }
     }
 `;
 

@@ -19,6 +19,7 @@ import { formatCurrency } from "../../utils/formatCurrency";
 import { Category } from "../../types/Category";
 import { api } from "../../httpRequest/api";
 import { Product } from "../../types/Product";
+import { toast } from "react-toastify";
 
 const mockProducts = [
     {
@@ -78,33 +79,78 @@ interface IProps {
 
 export function Products({ visible, onClose }: IProps) {
     const [listCategories, setListCategories] = useState<Category[]>([]);
-    const [ingredientes, setIngredientes] = useState<Product["ingredients"]>(
-        []
-    );
+    const [ingredients, setIngredients] = useState<Product["ingredients"]>([]);
+    const [disabledButton, setDisabledButton] = useState(false);
+
+    const [upfile, setUpfile] = useState({});
+    const [product, setProduct] = useState([{}]);
+
+    function uploadHandler(event: React.FormEvent<HTMLInputElement>) {
+        const target = event.target as HTMLInputElement;
+
+        if (!target.files) {
+            return;
+        }
+
+        const file = target.files[0];
+        setUpfile(file);
+    }
+
+    function handleInputChange(
+        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    ) {
+        setProduct({
+            ...product,
+            [e.currentTarget.name]: e.currentTarget.value,
+        });
+    }
+
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        // if (isNaN(product.price)) {
+        //     toast.warning("O Preço não parece um valor válido.");
+        //     return;
+        // }
+        // if (!product.name || !product.price || product.category.length === 0) {
+        //     toast.warning("Prencha todos os campos.");
+        //     return;
+        // }
+
+        const formData = new FormData();
+
+
+        const payload = {};
+
+        // setDisabledButton(true);
+        await api.post("/products", payload).catch((error) => {
+            console.log(error);
+        });
+        // toast.success(`O Produto foi criado com sucesso.`);
+        // setDisabledButton(false);
+    }
 
     function addListChange(e: React.ChangeEvent<HTMLSelectElement>) {
         const newIngredient = e.currentTarget.value;
         const [_id, icon, name] = newIngredient.split("-");
         if (_id && icon && name) {
-            setIngredientes([...ingredientes, { _id, icon, name }]);
+            setIngredients([...ingredients, { icon, name }]);
         }
     }
 
-    function handleRemoveIngredients(id: string) {
-        const index = ingredientes.findIndex((item) => item._id === id);
-        ingredientes.splice(index, 1);
-        setIngredientes([...ingredientes]);
+    function handleRemoveIngredients(index: number) {
+        ingredients.splice(index, 1);
+        setIngredients([...ingredients]);
     }
 
     useEffect(() => {
-        [ingredientes];
+        [ingredients];
     });
 
     useEffect(() => {
         api.get("/categories").then(({ data }) => {
             setListCategories(data);
         });
-    }, [listCategories]);
+    }, []);
 
     useEffect(() => {
         function handleKeyDown(event: KeyboardEvent) {
@@ -133,28 +179,46 @@ export function Products({ visible, onClose }: IProps) {
                         <img src={closeIcon} alt="Fechar" />
                     </button>
                 </header>
-                <Container>
+                <Container onSubmit={handleSubmit}>
                     <section className="inputs-category-file">
-                        <select name="goodies" id="goodies">
+                        <select
+                            onChange={handleInputChange}
+                            name="category"
+                            id="category"
+                        >
                             <option>Selecione a Categoria</option>
                             {listCategories.map((category) => (
-                                <option key={category._id} value="donut">
+                                <option key={category._id} value={category._id}>
                                     {category.icon} {category.name}
                                 </option>
                             ))}
                         </select>
                         <input
+                            name="image"
                             type="file"
-                            name="file"
-                            id="file"
+                            id="image"
+                            onChange={uploadHandler}
                             className="inputfile"
                         />
-                        <label htmlFor="file">
+                        <label htmlFor="image">
                             <FiUpload />
                             Anexar Imagem
                         </label>
                     </section>
-                    <input placeholder="Digite o nome do produto" />
+                    <section className="inputs-ingredients">
+                        <input
+                            name="name"
+                            id="name"
+                            placeholder="Digite o nome do produto"
+                            onChange={(e) => handleInputChange(e)}
+                        />
+                        <input
+                            name="description"
+                            id="description"
+                            placeholder="Breve descrição do produto"
+                            onChange={(e) => handleInputChange(e)}
+                        />
+                    </section>
 
                     <section className="inputs-ingredients">
                         <select
@@ -169,16 +233,22 @@ export function Products({ visible, onClose }: IProps) {
                                 🍞 Pão Fresco
                             </option>
                         </select>
-                        <button type="button">Adicionar Ingrediente</button>
+
+                        <input
+                            name="price"
+                            id="price"
+                            placeholder="R$ 00.00"
+                            onChange={(e) => handleInputChange(e)}
+                        />
                     </section>
                     <IngredientList>
-                        {ingredientes.map((ingredient, index) => (
+                        {ingredients.map((ingredient, index) => (
                             <span key={index}>
                                 {ingredient.icon}&nbsp;{ingredient.name}
                                 <button
                                     type="button"
                                     onClick={() =>
-                                        handleRemoveIngredients(ingredient._id)
+                                        handleRemoveIngredients(index)
                                     }
                                 >
                                     <FiXCircle />
@@ -187,7 +257,9 @@ export function Products({ visible, onClose }: IProps) {
                         ))}
                     </IngredientList>
 
-                    <button type="submit">Cadastrar Novo Produto</button>
+                    <button disabled={disabledButton} type="submit">
+                        Cadastrar Novo Produto
+                    </button>
                 </Container>
                 {mockProducts.length > 0 && (
                     <span>

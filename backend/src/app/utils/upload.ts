@@ -12,11 +12,13 @@ export const upload = multer({
         ) {
             return callback(new Error("Only images are allowed"));
         }
+
         callback(null, true);
     },
     limits: {
         fileSize: 1024 * 1024,
     },
+
     storage: multer.diskStorage({
         destination(req, file, callback) {
             callback(
