@@ -46,7 +46,6 @@ export function Products({ visible, onClose }: IProps) {
     const [isLoading, setIsLoading] = useState(false);
     const [listCategories, setListCategories] = useState<Category[]>([]);
     const [ingredients, setIngredients] = useState<Product["ingredients"]>([]);
-    // const [productUploadFile, setProductUploadFile] = useState<FileList>();
     const [fileImage, setFileImage] = useState<File | undefined>();
     const [product, setProduct] = useState<Product>({
         name: "",
@@ -89,6 +88,18 @@ export function Products({ visible, onClose }: IProps) {
         setIngredients([...ingredients!]);
     }
 
+    function handleEmptyStates() {
+        setProduct({
+            name: "",
+            description: "",
+            ingredients: [],
+            price: "",
+            category: "",
+        });
+        setIngredients([]);
+        setListCategories([]);
+    }
+
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
@@ -118,13 +129,6 @@ export function Products({ visible, onClose }: IProps) {
         setIsLoading(true);
         postProduct(formData)
             .then(() => {
-                setProduct({
-                    name: "",
-                    description: "",
-                    ingredients: [],
-                    price: "",
-                    category: "",
-                });
                 toast.success(
                     `O Produto ${product.name} foi criado com sucesso.`
                 );
@@ -134,6 +138,8 @@ export function Products({ visible, onClose }: IProps) {
                 toast.error(err.response.data.error);
                 setIsLoading(false);
             });
+
+        handleEmptyStates();
     }
 
     useEffect(() => {
@@ -202,12 +208,14 @@ export function Products({ visible, onClose }: IProps) {
                     <section className="inputs-ingredients">
                         <input
                             name="name"
+                            value={product.name}
                             id="name"
                             placeholder="Digite o nome do produto"
                             onChange={(e) => handleInputChange(e)}
                         />
                         <input
                             name="description"
+                            value={product.description}
                             id="description"
                             placeholder="Breve descrição do produto"
                             onChange={(e) => handleInputChange(e)}
@@ -220,7 +228,10 @@ export function Products({ visible, onClose }: IProps) {
                             name="ingredient"
                             id="ingredient"
                         >
-                            <option>Selecione o Ingrediente</option>
+                            {ingredients!.length === 0 && (
+                                <option>Selecione o Ingrediente</option>
+                            )}
+
                             <option value="1-🥓-Bacon">🥓 Bacon</option>
                             <option value="2-🧀-Queijo">🧀 Queijo</option>
                             <option value="3-🍞-Pão Fresco">
@@ -231,6 +242,7 @@ export function Products({ visible, onClose }: IProps) {
                         <input
                             name="price"
                             id="price"
+                            value={product.price}
                             placeholder="R$ 00.00"
                             onChange={(e) => handleInputChange(e)}
                         />

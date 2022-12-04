@@ -35,18 +35,25 @@ class createProducts {
                     error: "Ops, você foi muito rápido, preencha novamente.",
                 });
         }
+        try {
+            const newCategory = new mongoose.Types.ObjectId(category);
+            const product = await Product.create({
+                name,
+                description,
+                price: Number(price),
+                imagePath,
+                category: newCategory,
+                ingredients: ingredients ? JSON.parse(ingredients) : [],
+            });
 
-        const newCategory = new mongoose.Types.ObjectId(category);
-        const product = await Product.create({
-            name,
-            description,
-            price: Number(price),
-            imagePath,
-            category: newCategory,
-            ingredients: ingredients ? JSON.parse(ingredients) : [],
-        });
-
-        res.json(product);
+            res.json(product);
+        } catch (error) {
+            return res
+            .status(400)
+            .json({
+                error: "Ops, tivemos um problema interno.",
+            });
+        }
     }
 }
 

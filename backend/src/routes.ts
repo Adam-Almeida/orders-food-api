@@ -11,6 +11,7 @@ import createOrders from "./app/useCases/orders/createOrders";
 import changeOrderStatus from "./app/useCases/orders/changeOrderStatus";
 import deletedOrder from "./app/useCases/orders/deletedOrder";
 import deleteCategory from "./app/useCases/categories/deleteCategory";
+import deleteProduct from "./app/useCases/products/deleteProduct";
 
 export const router = Router();
 
@@ -25,6 +26,9 @@ router.get("/products", listProducts.handle);
 
 //create products
 router.post("/products", upload.single("image"), createProducts.handle);
+
+//delete product by categorie
+router.delete("/products/:id", deleteProduct.handle);
 
 //get product by categorie
 router.get("/categories/:id/products", listProductsByCategory.handle);
