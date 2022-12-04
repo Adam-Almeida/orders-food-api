@@ -14,7 +14,6 @@ export const io = new Server(server);
 mongoose
     .connect(connection)
     .then(() => {
-
         app.use((req, res, next) => {
             res.setHeader(
                 "Access-Control-Allow-Origin",

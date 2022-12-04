@@ -17,49 +17,14 @@ import {
 import { useEffect, useState } from "react";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { Category } from "../../types/Category";
-import { api, apiUpload } from "../../httpRequest/api";
+import { api } from "../../httpRequest/api";
 import { Product } from "../../types/Product";
 import { toast } from "react-toastify";
+import { postProduct } from "../../services/Product.service";
 
 const mockProducts = [
     {
         id: "1",
-        imagePath:
-            "http://joselito.com.br/wp-content/uploads/pizza-wallpaper-olives-mushrooms-cheese-tomatoes-parsley-dish-food.jpg",
-        title: "Pizza de Gorgonzola com Bacon",
-        description: "Pizza de Gorgonzola com Bacon delicisa",
-        ingredients: [
-            { icon: "🥓", name: "Bacon" },
-            { icon: "🧀", name: "Queijo Gorgonzola" },
-        ],
-        price: 15.0,
-    },
-    {
-        id: "2",
-        imagePath:
-            "http://joselito.com.br/wp-content/uploads/pizza-wallpaper-olives-mushrooms-cheese-tomatoes-parsley-dish-food.jpg",
-        title: "Pizza de Gorgonzola com Bacon",
-        description: "Pizza de Gorgonzola com Bacon delicisa",
-        ingredients: [
-            { icon: "🥓", name: "Bacon" },
-            { icon: "🧀", name: "Queijo Gorgonzola" },
-        ],
-        price: 15.0,
-    },
-    {
-        id: "3",
-        imagePath:
-            "http://joselito.com.br/wp-content/uploads/pizza-wallpaper-olives-mushrooms-cheese-tomatoes-parsley-dish-food.jpg",
-        title: "Pizza de Gorgonzola com Bacon",
-        description: "Pizza de Gorgonzola com Bacon delicisa",
-        ingredients: [
-            { icon: "🥓", name: "Bacon" },
-            { icon: "🧀", name: "Queijo Gorgonzola" },
-        ],
-        price: 15.0,
-    },
-    {
-        id: "4",
         imagePath:
             "http://joselito.com.br/wp-content/uploads/pizza-wallpaper-olives-mushrooms-cheese-tomatoes-parsley-dish-food.jpg",
         title: "Pizza de Gorgonzola com Bacon",
@@ -77,20 +42,13 @@ interface IProps {
     onClose: () => void;
 }
 
-interface IProductPayload {
-    name: string;
-    description: string;
-    ingredients: Product["ingredients"];
-    price: string;
-    category: string;
-}
-
 export function Products({ visible, onClose }: IProps) {
     const [isLoading, setIsLoading] = useState(false);
     const [listCategories, setListCategories] = useState<Category[]>([]);
     const [ingredients, setIngredients] = useState<Product["ingredients"]>([]);
-    const [upfile, setUpfile] = useState({});
-    const [product, setProduct] = useState<IProductPayload>({
+    // const [productUploadFile, setProductUploadFile] = useState<FileList>();
+    const [fileImage, setFileImage] = useState<File | undefined>();
+    const [product, setProduct] = useState<Product>({
         name: "",
         description: "",
         ingredients: [],
@@ -106,24 +64,7 @@ export function Products({ visible, onClose }: IProps) {
         }
 
         const file = target.files[0];
-        const formData = new FormData();
-
-        const payload = {
-            name: product.name,
-            description: product.description,
-            ingredients: JSON.stringify(ingredients),
-            price: product.price,
-            category: product.category,
-        };
-
-        formData.append("image", file, file.name);
-        formData.append("name", payload.name);
-        formData.append("ingredients", payload.ingredients);
-        formData.append("description", payload.description);
-        formData.append("price", payload.price);
-        formData.append("category", payload.category);
-
-        setUpfile(formData);
+        setFileImage(file);
     }
 
     function handleInputChange(
@@ -133,28 +74,6 @@ export function Products({ visible, onClose }: IProps) {
             ...product,
             [e.currentTarget.name]: e.currentTarget.value,
         });
-    }
-
-    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault();
-        if (isNaN(Number(product.price))) {
-            toast.warning("O Preço não parece um valor válido.");
-            return;
-        }
-        // if (!product.name || !product.price || product.category.length === 0) {
-        //     toast.warning("Prencha todos os campos.");
-        //     return;
-        // }
-
-        try {
-            await apiUpload.post("/products", upfile).then(() => {
-                toast.success(
-                    `O Produto ${product.name} foi criado com sucesso.`
-                );
-            });
-        } catch (error: any) {
-            toast.error(error.response.data.error);
-        }
     }
 
     function addListChange(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -168,6 +87,53 @@ export function Products({ visible, onClose }: IProps) {
     function handleRemoveIngredients(index: number) {
         ingredients!.splice(index, 1);
         setIngredients([...ingredients!]);
+    }
+
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+
+        if (!fileImage) {
+            toast.warning("Selecione a imagem do produto.");
+            return;
+        }
+
+        if (isNaN(Number(product.price))) {
+            toast.warning("O Preço não parece um valor válido.");
+            return;
+        }
+        if (!product.name || !product.price || product.category.length === 0) {
+            toast.warning("Prencha todos os campos.");
+            return;
+        }
+
+        const formData = new FormData();
+
+        formData.append("image", fileImage!, fileImage!.name);
+        formData.append("name", product.name);
+        formData.append("ingredients", JSON.stringify(ingredients));
+        formData.append("description", product.description!);
+        formData.append("price", product.price);
+        formData.append("category", product.category);
+
+        setIsLoading(true);
+        postProduct(formData)
+            .then(() => {
+                setProduct({
+                    name: "",
+                    description: "",
+                    ingredients: [],
+                    price: "",
+                    category: "",
+                });
+                toast.success(
+                    `O Produto ${product.name} foi criado com sucesso.`
+                );
+                setIsLoading(false);
+            })
+            .catch((err) => {
+                toast.error(err.response.data.error);
+                setIsLoading(false);
+            });
     }
 
     useEffect(() => {
@@ -286,7 +252,9 @@ export function Products({ visible, onClose }: IProps) {
                     </IngredientList>
 
                     <button disabled={isLoading} type="submit">
-                        Cadastrar Novo Produto
+                        {!isLoading
+                            ? "Cadastrar Novo Produto"
+                            : "Aguardando..."}
                     </button>
                 </Container>
                 {mockProducts.length > 0 && (
