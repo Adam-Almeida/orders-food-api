@@ -139,7 +139,11 @@ export function Categories({ visible, onClose }: IProps) {
                 {!isLoading ? (
                     <PlainList
                         list={listCategories}
-                        renderWhenEmpty={() => <div>List is empty!</div>}
+                        renderWhenEmpty={() => (
+                            <div className="empty-list">
+                                Ainda não existem produtos!
+                            </div>
+                        )}
                         renderItem={({ ...category }) => (
                             <ListCategories key={category._id}>
                                 <div className="details">

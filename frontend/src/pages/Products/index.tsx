@@ -20,7 +20,11 @@ import { Category } from "../../types/Category";
 import { api } from "../../httpRequest/api";
 import { Product } from "../../types/Product";
 import { toast } from "react-toastify";
-import { postProduct } from "../../services/Product.service";
+import {
+    deleteProduct,
+    getProducts,
+    postProduct,
+} from "../../services/Product.service";
 
 const mockProducts = [
     {
@@ -44,6 +48,7 @@ interface IProps {
 
 export function Products({ visible, onClose }: IProps) {
     const [isLoading, setIsLoading] = useState(false);
+    const [listProducts, setListProducts] = useState<Product[]>([]);
     const [listCategories, setListCategories] = useState<Category[]>([]);
     const [ingredients, setIngredients] = useState<Product["ingredients"]>([]);
     const [fileImage, setFileImage] = useState<File | undefined>();
@@ -141,6 +146,27 @@ export function Products({ visible, onClose }: IProps) {
 
         handleEmptyStates();
     }
+
+    async function fetchProducts() {
+        await getProducts().then(setListProducts);
+    }
+
+    async function handleDeleteProduct(id: string) {
+        try {
+            setIsLoading(true);
+            await deleteProduct(id).then(() => {
+                toast.success("O produto foi excluído com sucesso.");
+            });
+            setIsLoading(false);
+        } catch (error: any) {
+            toast.error(error.response.data.error);
+            setIsLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        fetchProducts();
+    }, [isLoading]);
 
     useEffect(() => {
         [ingredients];
@@ -269,42 +295,56 @@ export function Products({ visible, onClose }: IProps) {
                             : "Aguardando..."}
                     </button>
                 </Container>
-                {mockProducts.length > 0 && (
+                {listProducts.length > 0 && (
                     <span>
                         <FiArrowDownCircle />
-                        Existem&nbsp;<strong>{mockProducts.length}</strong>
+                        Existem&nbsp;<strong>{listProducts.length}</strong>
                         &nbsp;produtos cadastrados.
                     </span>
                 )}
                 <PlainList
-                    list={mockProducts}
-                    renderWhenEmpty={() => <div>List is empty!</div>}
+                    list={listProducts}
+                    renderWhenEmpty={() => (
+                        <div className="empty-list">
+                            Ainda não existem produtos!
+                        </div>
+                    )}
                     renderItem={(product) => (
-                        <ListProducts key={product.id}>
+                        <ListProducts key={product._id}>
                             <div className="iten">
-                                <ItenImg image={`${product.imagePath}`} />
+                                <ItenImg
+                                    image={`http://127.0.0.1:3001/uploads/${product.imagePath}`}
+                                />
                                 <div className="product-details">
-                                    <strong>{product.title}</strong>
+                                    <strong>{product.name.toUpperCase()}</strong>
                                     <span>{product.description}</span>
                                     <section>
-                                        {product.ingredients.map(
-                                            (ingredient) => (
-                                                <div key={ingredient.name}>
-                                                    <span>
-                                                        {ingredient.icon}
-                                                    </span>
-                                                    <span>
-                                                        {ingredient.name}
-                                                    </span>
-                                                </div>
-                                            )
-                                        )}
+                                        {product.ingredients!.length > 0 &&
+                                            product.ingredients!.map(
+                                                (ingredient) => (
+                                                    <div key={ingredient.name}>
+                                                        <span>
+                                                            {ingredient.icon}
+                                                        </span>
+                                                        <span>
+                                                            {ingredient.name}
+                                                        </span>
+                                                    </div>
+                                                )
+                                            )}
                                     </section>
-                                    <span>{formatCurrency(product.price)}</span>
+                                    <span>
+                                        {formatCurrency(Number(product.price))}
+                                    </span>
                                 </div>
                             </div>
 
-                            <button className="actions">
+                            <button
+                                className="actions"
+                                onClick={() =>
+                                    handleDeleteProduct(product._id!)
+                                }
+                            >
                                 <FiTrash2 />
                             </button>
                         </ListProducts>

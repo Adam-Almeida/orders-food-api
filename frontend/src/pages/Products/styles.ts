@@ -50,6 +50,15 @@ export const ModalBody = styled.div`
         }
     }
 
+    .empty-list{
+        width: 100%;
+        padding: 20px;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        color: red;
+    }
+
     .flatlist {
         padding: 0 0.5rem;
         margin-top: 0.5rem;
@@ -75,6 +84,8 @@ export const ModalBody = styled.div`
             border-radius: 20px;
             border: 3px solid var(--gray-100);
         }
+
+
     }
 `;
 
