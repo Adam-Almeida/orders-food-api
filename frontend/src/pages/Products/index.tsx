@@ -26,6 +26,7 @@ import {
     postProduct,
 } from "../../services/Product.service";
 import { getCategories } from "../../services/Category.service";
+import { formatTitle } from "../../utils/formatTitle";
 
 interface IProps {
     visible: boolean;
@@ -297,8 +298,10 @@ export function Products({ visible, onClose }: IProps) {
                                     image={`http://127.0.0.1:3001/uploads/${product.imagePath}`}
                                 />
                                 <div className="product-details">
-                                    <strong>{product.name.toUpperCase()}</strong>
-                                    <span>{product.description}</span>
+                                    <strong>{formatTitle(product.name)}</strong>
+                                    <span>
+                                        {formatTitle(product.description!)}
+                                    </span>
                                     <section>
                                         {product.ingredients!.length > 0 &&
                                             product.ingredients!.map(

@@ -12,6 +12,7 @@ import {
     getCategories,
     postCategory,
 } from "../../services/Category.service";
+import { formatTitle } from "../../utils/formatTitle";
 
 interface IProps {
     visible: boolean;
@@ -141,14 +142,14 @@ export function Categories({ visible, onClose }: IProps) {
                         list={listCategories}
                         renderWhenEmpty={() => (
                             <div className="empty-list">
-                                Ainda não existem produtos!
+                                Ainda não existem categorias!
                             </div>
                         )}
                         renderItem={({ ...category }) => (
                             <ListCategories key={category._id}>
                                 <div className="details">
                                     <span>{category.icon}</span>
-                                    <p>{category.name}</p>
+                                    <p>{formatTitle(category.name)}</p>
                                 </div>
                                 <button
                                     onClick={() =>
