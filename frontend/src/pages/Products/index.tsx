@@ -25,21 +25,7 @@ import {
     getProducts,
     postProduct,
 } from "../../services/Product.service";
-
-const mockProducts = [
-    {
-        id: "1",
-        imagePath:
-            "http://joselito.com.br/wp-content/uploads/pizza-wallpaper-olives-mushrooms-cheese-tomatoes-parsley-dish-food.jpg",
-        title: "Pizza de Gorgonzola com Bacon",
-        description: "Pizza de Gorgonzola com Bacon delicisa",
-        ingredients: [
-            { icon: "🥓", name: "Bacon" },
-            { icon: "🧀", name: "Queijo Gorgonzola" },
-        ],
-        price: 15.0,
-    },
-];
+import { getCategories } from "../../services/Category.service";
 
 interface IProps {
     visible: boolean;
@@ -147,8 +133,9 @@ export function Products({ visible, onClose }: IProps) {
         handleEmptyStates();
     }
 
-    async function fetchProducts() {
+    async function fetchProductsAndCategories() {
         await getProducts().then(setListProducts);
+        await getCategories().then(setListCategories);
     }
 
     async function handleDeleteProduct(id: string) {
@@ -165,18 +152,12 @@ export function Products({ visible, onClose }: IProps) {
     }
 
     useEffect(() => {
-        fetchProducts();
-    }, [isLoading]);
+        fetchProductsAndCategories();
+    }, [isLoading, onClose]);
 
     useEffect(() => {
         [ingredients];
     });
-
-    useEffect(() => {
-        api.get("/categories").then(({ data }) => {
-            setListCategories(data);
-        });
-    }, []);
 
     useEffect(() => {
         function handleKeyDown(event: KeyboardEvent) {

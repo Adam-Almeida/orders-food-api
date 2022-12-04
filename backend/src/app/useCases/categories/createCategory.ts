@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { io } from "../../..";
 import { Category } from "../../models/Category";
 
 class CreateCategory {

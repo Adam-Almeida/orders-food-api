@@ -32,7 +32,7 @@ export function Categories({ visible, onClose }: IProps) {
 
     useEffect(() => {
         fetchCategories();
-    }, [isLoading]);
+    }, [isLoading, onClose]);
 
     function handleInputChange(
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>

@@ -2,8 +2,6 @@ import { Header } from "../components/Header";
 import { Categories } from "../components/Categories";
 import { Menu } from "../components/Menu";
 import { api } from "../httpRequest/api";
-import { products as mockProducts } from "../mocks/products";
-import { categories as mockCategories } from "../mocks/categories";
 
 import {
     Container,
