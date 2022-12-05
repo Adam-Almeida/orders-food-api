@@ -1,6 +1,5 @@
 /* eslint-disable indent */
-import * as dotenv from "dotenv";
-dotenv.config();
+import env from "react-dotenv";
 import { Overlay, ModalBody, OrderDetails, ItenImg } from "./style";
 import closeIcon from "../../assets/images/close-icon.svg";
 import alarm from "../../assets/images/alarm.png";
@@ -93,7 +92,7 @@ export function OrderModal({
                     {order.products.map(({ _id, product, quantity }) => (
                         <div className="iten" key={_id}>
                             <ItenImg
-                                image={`${process.env.URLBASE}/uploads/${product.imagePath}`}
+                                image={`${env.URLBASE}/uploads/${product.imagePath}`}
                             />
                             <span className="quantity">{quantity}x</span>
                             <div className="product-details">

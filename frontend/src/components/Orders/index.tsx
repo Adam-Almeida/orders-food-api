@@ -1,5 +1,4 @@
-import * as dotenv from "dotenv";
-dotenv.config();
+import env from "react-dotenv";
 import { Board } from "../Board";
 import { Container } from "./style";
 import alarm from "../../assets/images/alarm.png";
@@ -14,7 +13,7 @@ export function Orders() {
     const [orders, setOrders] = useState<Order[]>([]);
 
     useEffect(() => {
-        const socket = socketIo(`${process.env.URLBASE}`, {
+        const socket = socketIo(`${env.URLBASE}`, {
             transports: ["websocket"],
         });
         socket.on("order@new", (order) => {
