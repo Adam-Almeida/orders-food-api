@@ -1,3 +1,5 @@
+import * as dotenv from "dotenv";
+dotenv.config();
 import { Board } from "../Board";
 import { Container } from "./style";
 import alarm from "../../assets/images/alarm.png";

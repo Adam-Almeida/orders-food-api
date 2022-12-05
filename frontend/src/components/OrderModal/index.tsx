@@ -1,4 +1,6 @@
 /* eslint-disable indent */
+import * as dotenv from "dotenv";
+dotenv.config();
 import { Overlay, ModalBody, OrderDetails, ItenImg } from "./style";
 import closeIcon from "../../assets/images/close-icon.svg";
 import alarm from "../../assets/images/alarm.png";
