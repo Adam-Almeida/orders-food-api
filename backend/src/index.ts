@@ -18,7 +18,8 @@ mongoose
         app.use((req, res, next) => {
             res.setHeader("Access-Control-Allow-Origin", [
                 `${process.env.FRONTEND}`,
-                `${process.env.FRONTEND_02}`,
+                "https://orders-food-api-i16o.vercel.app/",
+
             ]);
             res.setHeader("Access-Control-Allow-Methods", "*");
             res.setHeader("Access-Control-Allow-Headers", "*");
