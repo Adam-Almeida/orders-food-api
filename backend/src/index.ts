@@ -8,6 +8,7 @@ import { Server } from "socket.io";
 
 const port = process.env.PORT || 3001;
 const connection = process.env.MONGO_DB;
+const urlFront = process.env.FRONTEND;
 const app = express();
 const server = http.createServer(app);
 export const io = new Server(server);
@@ -16,11 +17,7 @@ mongoose
     .connect(connection!)
     .then(() => {
         app.use((req, res, next) => {
-            res.setHeader("Access-Control-Allow-Origin", [
-                `${process.env.FRONTEND}`,
-                "https://orders-food-api-i16o.vercel.app/",
-
-            ]);
+            res.setHeader("Access-Control-Allow-Origin", `${urlFront}`);
             res.setHeader("Access-Control-Allow-Methods", "*");
             res.setHeader("Access-Control-Allow-Headers", "*");
             next();
