@@ -16,10 +16,10 @@ mongoose
     .connect(connection!)
     .then(() => {
         app.use((req, res, next) => {
-            res.setHeader(
-                "Access-Control-Allow-Origin",
-                `${process.env.FRONTEND}`
-            );
+            res.setHeader("Access-Control-Allow-Origin", [
+                `${process.env.FRONTEND}`,
+                `${process.env.FRONTEND_02}`,
+            ]);
             res.setHeader("Access-Control-Allow-Methods", "*");
             res.setHeader("Access-Control-Allow-Headers", "*");
             next();
