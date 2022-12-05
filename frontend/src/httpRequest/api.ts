@@ -1,10 +1,11 @@
 import axios from "axios";
+import env from "react-dotenv";
 
 export const api = axios.create({
-    baseURL: "http://10.1.1.182:3001",
+    baseURL: `${env.URLBASE}`,
 });
 
 export const apiUpload = axios.create({
-    baseURL: "http://10.1.1.182:3001",
+    baseURL: `${env.URLBASE}`,
     headers: { "Content-Type": "multipart/form-data" },
 });
