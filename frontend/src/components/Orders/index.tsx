@@ -13,7 +13,7 @@ export function Orders() {
     const [orders, setOrders] = useState<Order[]>([]);
 
     useEffect(() => {
-        const socket = socketIo(`${env.URLBASE}`, {
+        const socket = socketIo(`${env.SOCKETURLAPP}`, {
             transports: ["websocket"],
         });
         socket.on("order@new", (order) => {
