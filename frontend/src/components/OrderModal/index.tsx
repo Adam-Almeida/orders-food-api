@@ -91,7 +91,7 @@ export function OrderModal({
                     {order.products.map(({ _id, product, quantity }) => (
                         <div className="iten" key={_id}>
                             <ItenImg
-                                image={`http://localhost:3001/uploads/${product.imagePath}`}
+                                image={`${process.env.URLBASE}/uploads/${product.imagePath}`}
                             />
                             <span className="quantity">{quantity}x</span>
                             <div className="product-details">

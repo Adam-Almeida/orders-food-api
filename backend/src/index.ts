@@ -1,3 +1,4 @@
+require("dotenv").config();
 import path from "node:path";
 import express from "express";
 import mongoose from "mongoose";
@@ -6,13 +7,13 @@ import http from "node:http";
 import { Server } from "socket.io";
 
 const port = process.env.PORT || 3001;
-const connection = "mongodb://localhost:27017";
+const connection = process.env.MONGO_DB;
 const app = express();
 const server = http.createServer(app);
 export const io = new Server(server);
 
 mongoose
-    .connect(connection)
+    .connect(connection!)
     .then(() => {
         app.use((req, res, next) => {
             res.setHeader(
