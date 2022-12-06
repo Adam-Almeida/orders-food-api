@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { api } from "../../httpRequest/api";
 import socketIo from "socket.io-client";
 const REACT_APP_URLBACKEND =
-    import.meta.env.REACT_APP_DEV === "prod"
+    process.env.REACT_APP_DEV === "prod"
         ? import.meta.env.REACT_APP_URLBACKEND
         : "http://127.0.0.1:4000/";
 

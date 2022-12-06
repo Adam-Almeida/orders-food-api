@@ -1,7 +1,7 @@
 import axios from "axios";
 const REACT_APP_URLBACKEND =
-    import.meta.env.REACT_APP_DEV === "prod"
-        ? import.meta.env.REACT_APP_URLBACKEND
+    process.env.REACT_APP_DEV === "prod"
+        ? process.env.REACT_APP_URLBACKEND
         : "http://127.0.0.1:4000/";
 
 console.log(REACT_APP_URLBACKEND);
