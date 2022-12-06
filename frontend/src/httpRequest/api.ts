@@ -2,7 +2,7 @@ import axios from "axios";
 const REACT_APP_URLBACKEND =
     process.env.REACT_APP_DEV === "prod"
         ? process.env.REACT_APP_URLBACKEND
-        : "http://127.0.0.1:4000/";
+        : "https://vercel-foodie-api-adam.vercel.app/";
 
 console.log(REACT_APP_URLBACKEND);
 

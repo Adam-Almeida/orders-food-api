@@ -10,7 +10,7 @@ import socketIo from "socket.io-client";
 const REACT_APP_URLBACKEND =
     process.env.REACT_APP_DEV === "prod"
         ? import.meta.env.REACT_APP_URLBACKEND
-        : "http://127.0.0.1:4000/";
+        : "https://vercel-foodie-api-adam.vercel.app/";
 
 export function Orders() {
     const [orders, setOrders] = useState<Order[]>([]);
