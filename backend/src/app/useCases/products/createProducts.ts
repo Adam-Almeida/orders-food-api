@@ -20,6 +20,7 @@ class createProducts {
             );
             const exists = fs.existsSync(uploadDir);
 
+
             if (exists) {
                 fs.unlink(`${uploadDir}/${imagePath}`, (err) => {
                     if (err) {

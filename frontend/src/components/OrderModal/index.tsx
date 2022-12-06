@@ -1,5 +1,4 @@
 /* eslint-disable indent */
-import env from "react-dotenv";
 import { Overlay, ModalBody, OrderDetails, ItenImg } from "./style";
 import closeIcon from "../../assets/images/close-icon.svg";
 import alarm from "../../assets/images/alarm.png";
@@ -8,7 +7,8 @@ import fried from "../../assets/images/fried.png";
 import { Order } from "../../types/Order";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { useEffect } from "react";
-
+const REACT_APP_URLBACKEND =
+    import.meta.env.REACT_APP_URLBACKEND;
 
 interface IProps {
     visible: boolean;
@@ -93,7 +93,7 @@ export function OrderModal({
                     {order.products.map(({ _id, product, quantity }) => (
                         <div className="iten" key={_id}>
                             <ItenImg
-                                image={`${env.URLBASE}/uploads/${product.imagePath}`}
+                                image={`${REACT_APP_URLBACKEND}/uploads/${product.imagePath}`}
                             />
                             <span className="quantity">{quantity}x</span>
                             <div className="product-details">

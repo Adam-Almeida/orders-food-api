@@ -17,7 +17,6 @@ import {
 import { useEffect, useState } from "react";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { Category } from "../../types/Category";
-import { api } from "../../httpRequest/api";
 import { Product } from "../../types/Product";
 import { toast } from "react-toastify";
 import {
@@ -27,6 +26,11 @@ import {
 } from "../../services/Product.service";
 import { getCategories } from "../../services/Category.service";
 import { formatTitle } from "../../utils/formatTitle";
+
+const REACT_APP_URLBACKEND =
+    import.meta.env.REACT_APP_DEV === "prod"
+        ? import.meta.env.REACT_APP_URLBACKEND
+        : "http://127.0.0.1:4000/";
 
 interface IProps {
     visible: boolean;
@@ -229,7 +233,6 @@ export function Products({ visible, onClose }: IProps) {
                             onChange={(e) => handleInputChange(e)}
                         />
                     </section>
-
                     <section className="inputs-ingredients">
                         <select
                             onChange={(e) => addListChange(e)}
@@ -270,7 +273,7 @@ export function Products({ visible, onClose }: IProps) {
                             </span>
                         ))}
                     </IngredientList>
-
+                    process.env.
                     <button disabled={isLoading} type="submit">
                         {!isLoading
                             ? "Cadastrar Novo Produto"
@@ -295,7 +298,7 @@ export function Products({ visible, onClose }: IProps) {
                         <ListProducts key={product._id}>
                             <div className="iten">
                                 <ItenImg
-                                    image={`http://127.0.0.1:3001/uploads/${product.imagePath}`}
+                                    image={`${REACT_APP_URLBACKEND}uploads/${product.imagePath}`}
                                 />
                                 <div className="product-details">
                                     <strong>{formatTitle(product.name)}</strong>

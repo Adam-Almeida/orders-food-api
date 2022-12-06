@@ -8,7 +8,6 @@ import { Server } from "socket.io";
 
 const port = process.env.PORT || 3001;
 const connection = process.env.MONGO_DB;
-const urlFront = process.env.FRONTEND;
 const app = express();
 const server = http.createServer(app);
 export const io = new Server(server);

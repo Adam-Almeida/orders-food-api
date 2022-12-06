@@ -1,4 +1,3 @@
-import env from "react-dotenv";
 import { Board } from "../Board";
 import { Container } from "./style";
 import alarm from "../../assets/images/alarm.png";
@@ -8,12 +7,16 @@ import { Order } from "../../types/Order";
 import { useEffect, useState } from "react";
 import { api } from "../../httpRequest/api";
 import socketIo from "socket.io-client";
+const REACT_APP_URLBACKEND =
+    import.meta.env.REACT_APP_DEV === "prod"
+        ? import.meta.env.REACT_APP_URLBACKEND
+        : "http://127.0.0.1:4000/";
 
 export function Orders() {
     const [orders, setOrders] = useState<Order[]>([]);
 
     useEffect(() => {
-        const socket = socketIo(env.URLBASE, {
+        const socket = socketIo(REACT_APP_URLBACKEND!, {
             transports: ["websocket"],
         });
         socket.on("order@new", (order) => {
