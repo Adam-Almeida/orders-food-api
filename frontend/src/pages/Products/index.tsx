@@ -28,8 +28,9 @@ import { getCategories } from "../../services/Category.service";
 import { formatTitle } from "../../utils/formatTitle";
 
 const REACT_APP_URLBACKEND =
-    import.meta.env.REACT_APP_DEV === "prod"
-        ? import.meta.env.REACT_APP_URLBACKEND
+    process.env.REACT_APP_DEV &&
+    process.env.REACT_APP_DEV === "prod"
+        ? process.env.REACT_APP_URLBACKEND
         : "https://vercel-foodie-api-adam.vercel.app/";
 
 interface IProps {
@@ -273,7 +274,6 @@ export function Products({ visible, onClose }: IProps) {
                             </span>
                         ))}
                     </IngredientList>
-                    process.env.
                     <button disabled={isLoading} type="submit">
                         {!isLoading
                             ? "Cadastrar Novo Produto"

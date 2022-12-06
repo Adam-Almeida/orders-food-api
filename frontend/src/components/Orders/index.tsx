@@ -7,9 +7,11 @@ import { Order } from "../../types/Order";
 import { useEffect, useState } from "react";
 import { api } from "../../httpRequest/api";
 import socketIo from "socket.io-client";
+
 const REACT_APP_URLBACKEND =
+    process.env.REACT_APP_DEV &&
     process.env.REACT_APP_DEV === "prod"
-        ? import.meta.env.REACT_APP_URLBACKEND
+        ? process.env.REACT_APP_URLBACKEND
         : "https://vercel-foodie-api-adam.vercel.app/";
 
 export function Orders() {

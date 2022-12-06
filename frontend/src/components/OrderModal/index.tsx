@@ -7,9 +7,12 @@ import fried from "../../assets/images/fried.png";
 import { Order } from "../../types/Order";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { useEffect } from "react";
-const REACT_APP_URLBACKEND =
-    import.meta.env.REACT_APP_URLBACKEND;
 
+const REACT_APP_URLBACKEND =
+    process.env.REACT_APP_DEV && process.env.REACT_APP_DEV === "prod"
+        ? process.env.REACT_APP_URLBACKEND
+        : "https://vercel-foodie-api-adam.vercel.app/";
+        
 interface IProps {
     visible: boolean;
     order: Order | null;
