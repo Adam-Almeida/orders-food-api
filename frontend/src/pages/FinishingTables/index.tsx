@@ -1,3 +1,3 @@
 export function FinishingTables() {
-    return ;
+    return null;
 }

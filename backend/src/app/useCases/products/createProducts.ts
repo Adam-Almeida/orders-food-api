@@ -9,8 +9,6 @@ class createProducts {
         const imagePath = req.file?.path;
         const { name, description, price, category, ingredients } = req.body;
 
-        res.send(req.file);
-
         if (!name || !price || !category) {
             return res.status(400).json({
                 error: "Ops, você foi muito rápido, preencha novamente.",
