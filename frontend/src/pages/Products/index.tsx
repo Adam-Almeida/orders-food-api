@@ -291,9 +291,7 @@ export function Products({ visible, onClose }: IProps) {
                     renderItem={(product) => (
                         <ListProducts key={product._id}>
                             <div className="iten">
-                                <ItenImg
-                                    image={`${product.imagePath}`}
-                                />
+                                <ItenImg image={`${product.imagePath}`} />
                                 <div className="product-details">
                                     <strong>{formatTitle(product.name)}</strong>
                                     <span>
