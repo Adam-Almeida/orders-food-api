@@ -34,10 +34,10 @@ mongoose
             next();
         });
 
-        app.use(
-            "/uploads",
-            express.static(path.resolve(__dirname, "..", "uploads"))
-        );
+        // app.use(
+        //     "/uploads",
+        //     express.static(path.resolve(__dirname, "..", "uploads"))
+        // );
         app.use(express.json());
         app.use(router);
 

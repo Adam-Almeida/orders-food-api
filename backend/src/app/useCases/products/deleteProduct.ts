@@ -24,26 +24,26 @@ class deleteProduct {
                 return;
             }
 
-            //exclui a imagem da pasta
-            const uploadDir = path.resolve(
-                __dirname,
-                "..",
-                "..",
-                "..",
-                "..",
-                "uploads"
-            );
-            const exists = fs.existsSync(uploadDir);
+            // //exclui a imagem da pasta
+            // const uploadDir = path.resolve(
+            //     __dirname,
+            //     "..",
+            //     "..",
+            //     "..",
+            //     "..",
+            //     "uploads"
+            // );
+            // const exists = fs.existsSync(uploadDir);
 
-            if (exists) {
-                fs.unlink(`${uploadDir}/${productById.imagePath}`, (err) => {
-                    if (err) {
-                        res.json({
-                            error: `Erro ao excluir uploads anterios.`,
-                        });
-                    }
-                });
-            }
+            // if (exists) {
+            //     fs.unlink(`${uploadDir}/${productById.imagePath}`, (err) => {
+            //         if (err) {
+            //             res.json({
+            //                 error: `Erro ao excluir uploads anterios.`,
+            //             });
+            //         }
+            //     });
+            // }
 
             await Product.findByIdAndDelete(id);
             res.sendStatus(204);
