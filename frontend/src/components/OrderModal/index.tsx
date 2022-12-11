@@ -8,11 +8,6 @@ import { Order } from "../../types/Order";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { useEffect } from "react";
 
-const REACT_APP_URLBACKEND =
-    process.env.REACT_APP_DEV && process.env.REACT_APP_DEV === "prod"
-        ? process.env.REACT_APP_URLBACKEND
-        : "https://vercel-foodie-api-adam.vercel.app/";
-        
 interface IProps {
     visible: boolean;
     order: Order | null;
@@ -96,7 +91,7 @@ export function OrderModal({
                     {order.products.map(({ _id, product, quantity }) => (
                         <div className="iten" key={_id}>
                             <ItenImg
-                                image={`${REACT_APP_URLBACKEND}/uploads/${product.imagePath}`}
+                                image={`${product.imagePath}`}
                             />
                             <span className="quantity">{quantity}x</span>
                             <div className="product-details">
